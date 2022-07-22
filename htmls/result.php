@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>SSBU_charaVoting</title>
     <link rel="stylesheet" href="../csss/index.css">
+    <script src="../Library/chart.js"></script>
+    <!--チャート出力用-->
 </head>
 
 <body>
     <strong class = "title2_font">投稿ありがとう！</strong>
-    
     <?php
         $db_host = 'localhost';
         $db_user = 'root';
@@ -59,14 +60,67 @@
                 }
             }
             $result->close();
-
-            echo "<br>";
             for($i = 0; $i < count($resultlist); $i++){
                 $avelist[$i] /= $rows;
-                echo "$avelist[$i] ";
             }
-            echo "<br>";
+
+            $avelist_json = json_encode($avelist);
         }
     ?>
+
+    <div class = "chart_area">
+        <canvas id="myRadarChart">
+        </canvas>
+    </div>
+
+    <script>
+        var avelist = JSON.parse('<?php echo $avelist_json; ?>');
+        var ctx = document.getElementById("myRadarChart");
+        var myRadarChart = new Chart(ctx, {
+            //グラフの種類
+            type: 'radar',
+            //データの設定
+            data: {
+                //データ項目のラベル
+                labels: ["火力", "機動力", "復帰力", "撃墜力", "破壊力", "立ち回り", "飛び道具耐性", "人気"],
+                //データセット
+                datasets: [
+                    {
+                        label: "〇〇",
+                        //背景色
+                        backgroundColor: "rgba(200,112,126,0.5)",
+                        //枠線の色
+                        borderColor: "rgba(200,112,126,1)",
+                        //結合点の背景色
+                        pointBackgroundColor: "rgba(200,112,126,1)",
+                        //結合点の枠線の色
+                        pointBorderColor: "#fff",
+                        //結合点の背景色（ホバ時）
+                        pointHoverBackgroundColor: "#fff",
+                        //結合点の枠線の色（ホバー時）
+                        pointHoverBorderColor: "rgba(200,112,126,1)",
+                        //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+                        hitRadius: 5,
+                        //グラフのデータ
+                        data: avelist,
+                    }
+                ]
+            },
+            options: {
+                // レスポンシブ指定
+                responsive: true,
+                scale: {
+                ticks: {
+                    // 最小値の値を0指定
+                    beginAtZero:true,
+                    min: 0,
+                    // 最大値を指定
+                    max: 100,
+                }
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>

@@ -26,3 +26,16 @@
   border: none;
   background: none;
 }
+.chart_area {
+  position: relative;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  width: 40vw;
+  height: 40vw;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+  background-color: gainsboro;
+  border: 4px double goldenrod;
+}
