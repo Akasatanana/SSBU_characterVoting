@@ -11,10 +11,10 @@
 <body>
     <strong class = "title2_font">投稿ありがとう！</strong>
     <?php
-        $db_host = 'localhost';
-        $db_user = 'root';
-        $db_password = 'root';
-        $db_db = 'SSBU_charaVoting';
+        $db_host = 'mysql630.db.sakura.ne.jp';
+        $db_user = 'ssbu-charavoting';
+        $db_password = 'mkai0894';
+        $db_db = 'ssbu-charavoting_chara-voting';
     
         $mysqli = @new mysqli(
         $db_host,
@@ -68,8 +68,8 @@
         }
     ?>
 
-    <div class = "chart_area">
-        <canvas id="myRadarChart">
+    <div style= "position:relative;width:500px;height:500px;">
+        <canvas id="myRadarChart" width="">
         </canvas>
     </div>
 
@@ -88,17 +88,17 @@
                     {
                         label: "〇〇",
                         //背景色
-                        backgroundColor: "rgba(200,112,126,0.5)",
+                        backgroundColor: "rgba(204,255,204, 0.5)",
                         //枠線の色
-                        borderColor: "rgba(200,112,126,1)",
+                        borderColor: "rgba(0,128,0, 1)",
                         //結合点の背景色
-                        pointBackgroundColor: "rgba(200,112,126,1)",
+                        pointBackgroundColor: "rgba(0,128,0, 1)",
                         //結合点の枠線の色
                         pointBorderColor: "#fff",
                         //結合点の背景色（ホバ時）
                         pointHoverBackgroundColor: "#fff",
                         //結合点の枠線の色（ホバー時）
-                        pointHoverBorderColor: "rgba(200,112,126,1)",
+                        pointHoverBorderColor: "rgba(0,128,0, 1)",
                         //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
                         hitRadius: 5,
                         //グラフのデータ
@@ -112,10 +112,10 @@
                 scale: {
                 ticks: {
                     // 最小値の値を0指定
-                    beginAtZero:true,
                     min: 0,
                     // 最大値を指定
-                    max: 100,
+                    max: 10,
+                    stepSize: 0.1,
                 }
                 }
             }
