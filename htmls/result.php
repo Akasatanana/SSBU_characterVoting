@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SSBU_charaVoting</title>
-    <link rel="stylesheet" href="../csss/index.css">
+    <link rel="stylesheet" href="../csss/style.css">
     <script src="../Library/chart.js"></script>
     <!--チャート出力用-->
 </head>
