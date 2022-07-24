@@ -1,4 +1,6 @@
+
 <?php
+/*
     $existsUsername = false;
     $notexistUsername = false;
     $incorrectPassword = false;
@@ -46,6 +48,7 @@
             }
         }
     }
+    */
 ?>
 
 <!DOCTYPE html>
