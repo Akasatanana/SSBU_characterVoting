@@ -57,6 +57,15 @@ width: 500px;
 outline: none;
 }
 
+.fa-right {
+  color: white;
+  font-size: 2rem;
+}
+.fa-solid {
+  color: white;
+  font-size: 2rem;
+}
+
 /* 画面幅の10%の幅で画像を表示 */
 .image-vw {
     width : 10vw ; 
