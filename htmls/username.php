@@ -14,6 +14,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Kosugi&display=swap" rel="stylesheet">
     <!--fontawesome用-->
     <script src="https://kit.fontawesome.com/e435c5f384.js" crossorigin="anonymous"></script>
+
+    <header>
+        <h1>
+            <a href = "username.php"><img class = "header-image" src = "../images/else/ssbu_characterVoting_icon.png" alt = "スマブラ投票権!!"></a>
+            スマブラ投票権!!
+        </h1>
+    </header>
 </head>
 
 <body>
@@ -31,5 +38,12 @@
         </form>
     </div>
 </body>
+
+<footer>
+    <h1 class = "footer-text">
+        Respected
+        <a href = "https://www.smashbros.com/ja_JP/">大乱闘スマッシュブラザーズ</a>
+    </h1>
+</footer>
 
 </html>

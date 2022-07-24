@@ -16,13 +16,13 @@
     background-repeat: no-repeat;
     background-color: black;
     background-position: center center;
+
+    position: relative;
     height: 100vh;
 
     font-family: 'Kosugi', sans-serif;
     color: rgb(255,255,204);
     text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
-
-
   }
   
   .username-containter1 {
@@ -31,7 +31,7 @@
     height: 50vh;
 
     position: relative;
-    top: 25vh;
+    top: 10vh;
     left: 10vw;
   }
   
@@ -88,4 +88,35 @@
   .usertype-select {
     font-size: 1.8vw;
     margin-top: 2.5%;
+  }
+  header {
+    height: 8vh;
+    background-color: red;
+    font-family: 'Kosugi', sans-serif;
+    color: rgb(255,255,204);
+    text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
+    text-align: left;
+    font-size: 4vh;
+  }
+  .header-image{
+    margin-top: 2vh;
+    margin-left: 1%;
+    height: 5vh;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 0;
+
+    height: 6vh;
+    width: 100vw;
+    background-color: red;
+    font-family: 'Kosugi', sans-serif;
+    color: rgb(255,255,204);
+    text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-size: 2.5vh;
+  }
+  .footer-text {
+    margin-top: 2vh;
   }
