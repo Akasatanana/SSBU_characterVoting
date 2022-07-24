@@ -1,0 +1,91 @@
+*::-webkit-input-placeholder {
+    color: #fff;
+  }
+  *:-moz-placeholder {
+    color: #fff;
+  }
+  *::-moz-placeholder {
+    color: #fff;
+  }
+  *:-ms-input-placeholder {
+    color: #fff;
+  }
+  body {
+    background-image: url(../images/username/ssbu_logo.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+    background-position: center center;
+    height: 100vh;
+
+    font-family: 'Kosugi', sans-serif;
+    color: rgb(255,255,204);
+    text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+
+
+  }
+  
+  .username-containter1 {
+    text-align: center;
+    width: 80vw;
+    height: 50vh;
+
+    position: relative;
+    top: 25vh;
+    left: 10vw;
+  }
+  
+  .username-headText {
+    font-size: 5vw;
+  }
+  
+  .username-textbox {
+    margin-top: 5%;
+    border: 1px solid whitesmoke;
+    color: rgb(50, 50, 50);
+    opacity: .9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 40vw;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    font-size: 2rem;
+    outline: none;
+    background-color: whitesmoke;
+  }
+  
+  .username-textbox:focus {
+    width: 50vw;
+    outline: none;
+  }
+
+  .username-submit-button {
+    margin-top: 5%;
+
+    -webkit-transform: skew(-15deg);
+    transform: skew(-15deg);
+    border-radius: 0;
+
+    width: 45vw;
+    height: 10vh;
+
+    font-size: 2.5vw;
+
+    background-image: -webkit-gradient(linear, left top, right top, from(red), to(orange));
+    background-image: -webkit-linear-gradient(left, red 0%, orange 100%);
+    background-image: linear-gradient(90deg, red 0%, orange 100%);
+    
+    -webkit-box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+  }
+
+  .username-submit-button:hover {
+    color: wheat;
+  }
+
+  .usertype-select {
+    font-size: 1.8vw;
+    margin-top: 2.5%;
+  }
