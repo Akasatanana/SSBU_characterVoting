@@ -1,6 +1,5 @@
 
 <?php
-/*
     $existsUsername = false;
     $notexistUsername = false;
     $incorrectPassword = false;
@@ -25,7 +24,7 @@
     }
 
     if ($_POST["usertype"] == "new") {
-        $sql = "SELECT username FROM username WHERE username = ?";
+        $sql = "SELECT name FROM username WHERE name = ?";
         if ($result = $mysqli->prepare($sql)) {
             $result->bind_param("s", $_POST['username']);
             $result->execute();
@@ -34,7 +33,7 @@
             $rows = $result->num_rows;
             if ($rows == 0) {
                 $stmt = $mysqli->prepare('INSERT INTO username (
-                            username, paswword
+                            username, password
                           ) VALUES (
                             ?, ?
                           )');
@@ -48,7 +47,6 @@
             }
         }
     }
-    */
 ?>
 
 <!DOCTYPE html>
