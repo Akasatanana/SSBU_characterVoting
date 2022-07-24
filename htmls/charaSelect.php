@@ -23,7 +23,7 @@
         $mysqli->set_charset("utf8");
     }
 
-    if ($_POST["usertype"] == "new") {
+    if($_POST["usertype"] == "new") {
         $sql = "SELECT name FROM username WHERE name = ?";
         if ($result = $mysqli->prepare($sql)) {
             $result->bind_param("s", $_POST['username']);
@@ -46,6 +46,31 @@
                 $existsUsername = true;
             }
         }
+    }else{
+        $sql = "SELECT name, password FROM username WHERE name = ?";
+        if ($result = $mysqli->prepare($sql)) {
+            $result->bind_param("s", $_POST['username']);
+            $result->execute();
+
+            $result->store_result(); // これ忘れるとnum_rowsは0
+            $rows = $result->num_rows;
+            if ($rows == 0) {
+                $notexistUsername = true;
+            } else{
+                $resultlist = array("", "");
+                $result->bind_result($resultlist[0], $resultlist[1]);
+
+                while ($result->fetch()) {
+                    for($i = 0; $i < count($resultlist); $i++){
+                        if($resultlist[1] != $_POST["password"]){
+                            $incorrectPassword = true;
+                            break;
+                        }
+                    }
+                }
+                $result->close();
+            }
+        }
     }
 ?>
 
@@ -60,6 +85,13 @@
 <body>
     <?php if($existsUsername){ ?> <!--新規ユーザで登録不可能-->
         <strong class = "title2_font">このユーザ名は既に登録されています</strong>
+
+    <?php }else if($notexistUsername){ ?> <!--既存ユーザで名前なし-->
+        <strong class = "title2_font">このユーザ名は登録されていません</strong>
+
+    <?php }else if($incorrectPassword){ ?> <!--既存ユーザでパスワードが異なる-->
+        <strong class = "title2_font">パスワードが異なります</strong>
+
     <?php }else{ ?><!--正常な処理-->
         <strong class = "title2_font">キャラクターを選択してね</strong>
         <div class="imagezone">
