@@ -52,14 +52,18 @@
   background-color: whitesmoke;
 }
 
-.textbox:focus {
+.username-textbox:focus {
 width: 500px;
 outline: none;
 }
 
-.fa-right{
+.fa-arrow-right{
   color: white;
   font-size: 2rem;
+
+  text-shadow: 1px 2px 3px gray;
+  margin-top: 68px;
+  margin-left: 10px;
 }
 
 /* 画面幅の10%の幅で画像を表示 */

@@ -15,8 +15,8 @@
     <div class = "username-containter">
         <h1 class = "username-headText">名前を入力してね</h1>
         <form method="get" action="charaSelect.php" target="_blank">
-            <input class="username-textbox" type="text" name="username" autocomplete="off" maxlength="60"><br>
-            <button type = "submit"><i class="fa-solid fa-right"></i></button>
+            <input class="username-textbox" type="text" name="username" autocomplete="off" maxlength="60">
+            <button type = "submit"><i class="fas fa-arrow-right" ></i></button>
         </form>
     </div>
 </body>
