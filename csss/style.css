@@ -21,18 +21,23 @@ text-align: center;
 }
 
 h1 {
-color: whitesmoke;
-font-family: 'DotGothic16', sans-serif;
-font-weight: bold;
-font-size: 72px;
-margin-top: 50px;
+  color: whitesmoke;
+  font-family: 'DotGothic16', sans-serif;
+  font-weight: bold;
+  font-size: 72px;
+  margin-top: 50px;
+
+  -webkit-text-stroke: 1px black;
+  text-stroke: 1px black;
+
+  text-shadow: 1px 2px 3px gray;
 }
 
 .textbox {
 margin-top: 50px;
 font-family: 'DotGothic16', sans-serif;
-border: 1px solid #acacac;
-color: #fff;
+border: 1px solid whitesmoke;
+color: gray;
 opacity: .7;
 border-radius: 10px;
 padding: 20px;
@@ -43,7 +48,7 @@ transition: all .3s;
 -moz-transition: all .3s;
 font-size: 16px;
 outline: none;
-background-color: #acacac;
+background-color: whitesmoke;
 }
 
 .textbox:focus {
