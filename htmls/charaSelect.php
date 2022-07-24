@@ -57,26 +57,10 @@
 </head>
 
 <body>
-    <?php if($existsUsername){ ?> <!--新規ユーザで登録不可能-->
-        <strong class = "title2_font">このユーザ名は既に登録されています</strong>
-    <?php } else if($notexistUsername){ ?> <!--既存ユーザでユーザ名が存在しない-->
-    
-    <?php } else if($notexistUsername){ ?> <!--既存ユーザでパスワードが異なる-->
-
-    <?php }else{ ?><!--正常な処理-->
-        <strong class = "title2_font">キャラクターを選択してね</strong>
-        <div class="imagezone">
-            <form method="POST" action="voting.php">
-                <?php
-                    $images = glob('../images/charaImages//*png');
-                    foreach($images as $v) {
-                        echo '<button type = "submit" name = "charaurl" value = "' , $v , '" onclick = "location.href= "voting.php"" class = "nobordered_button">
-                                <img src="' , $v , '" alt="" loading="lazy" class="image-vw">
-                            </button>';
-                    }
-                ?>
-            </form>
-        </div>
-    <?php } ?>
+    <?php 
+        echo $existsUsername."<br>";
+        echo $_POST["username"]."<br>";
+        echo $_POST["password"]."<br>";
+    ?>
 </body>
 </html>
