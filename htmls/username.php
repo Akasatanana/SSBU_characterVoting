@@ -18,7 +18,7 @@
 <body>
     <div class = "username-containter1">
         <h1 class = "username-headText">名前とパスワードを入力</h1>
-        <form method="post" action="charaSelect.php" target="_blank">
+        <form method="post" action="" target="_blank">
                 <div class = "usertype-select">
                     <input type="radio" name = "usertype" value = "new" checked> 新規ユーザ
                     <input type="radio" name = "usertype" value = "registered"> 登録済み<br>
