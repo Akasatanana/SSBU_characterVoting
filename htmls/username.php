@@ -7,9 +7,8 @@
 </head>
 
 <body>
-    <strong class = "title2_font">名前を入力してね</strong>
-
     <div id="containter">
+        <h1>名前を入力してね</h1>
         <form method="get" action="charaSelect.php" target="_blank">
             <input class="textbox" type="text" name="q" placeholder="ユーザ名" autocomplete="off" maxlength="60">
         </form>
