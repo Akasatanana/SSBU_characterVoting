@@ -17,7 +17,7 @@
   background-repeat: no-repeat;
   background-color: black;
   height: 100vh;
-  background-position: center center;
+  background-position: center left;
 
   text-align: center;
 }
@@ -27,7 +27,7 @@
   color: whitesmoke;
   font-family: 'DotGothic16', sans-serif;
   font-weight: bold;
-  font-size: 72px;
+  font-size: 15vh;
 
   -webkit-text-stroke: 0.5px black;
   text-stroke: 0.5px black;
@@ -44,17 +44,17 @@
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  width: 400px;
+  width: 40vh;
   transition: all .3s;
   -webkit-transition: all .3s;
   -moz-transition: all .3s;
-  font-size: 16px;
+  font-size: 2rem;
   outline: none;
   background-color: whitesmoke;
 }
 
 .username-textbox:focus {
-width: 500px;
+width: 50vh;
 outline: none;
 }
 
@@ -63,8 +63,8 @@ outline: none;
   font-size: 2rem;
 
   text-shadow: 1px 2px 3px gray;
-  margin-top: 68px;
-  margin-left: 10px;
+  margin-top: 8vh;
+  margin-left: 1vh;
 }
 
 /* 画面幅の10%の幅で画像を表示 */
