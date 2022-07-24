@@ -24,14 +24,17 @@
     }
 
     if ($_POST["usertype"] == "new") {
+        echo "here<br>";//デバッグ用
         $sql = "SELECT name FROM username WHERE name = ?";
         if ($result = $mysqli->prepare($sql)) {
+            echo "here<br>";//デバッグ用
             $result->bind_param("s", $_POST['username']);
             $result->execute();
 
             $result->store_result(); // これ忘れるとnum_rowsは0
             $rows = $result->num_rows;
             if ($rows == 0) {
+                echo "here<br>";//デバッグ用
                 $stmt = $mysqli->prepare('INSERT INTO username (
                             username, password
                           ) VALUES (
@@ -43,6 +46,7 @@
                 $stmt->execute();
                 $stmt->close();
             } else {
+                echo "here<br>";//デバッグ用
                 $existsUsername = true;
             }
         }
