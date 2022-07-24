@@ -12,12 +12,17 @@
 }
 
 #containter {
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(../images/username/ssbu_logo.jpeg);
 text-align: center;
 }
 
 h1 {
-color: #55acee;
-font-family: cursive;
+color: whitesmoke;
+font-family: 'DotGothic16', sans-serif;
 font-weight: bold;
 font-size: 72px;
 margin-top: 50px;
@@ -25,7 +30,7 @@ margin-top: 50px;
 
 .textbox {
 margin-top: 50px;
-font-family: cursive;
+font-family: 'DotGothic16', sans-serif;
 border: 1px solid #acacac;
 color: #fff;
 opacity: .7;
