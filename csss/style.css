@@ -1,31 +1,5 @@
 /* 画面幅の10%の幅で画像を表示 */
-.image-vw {
-    width : 10vw ; 
-  }
-.imagezone {
-  position: relative;
-  margin-left: 5vw;
-  margin-right: 5vw;
-  width: 80vw;
-  height: 170vw;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  padding-top: 2vw;
-  padding-bottom: 2vw;
-  background-color: gainsboro;
-  border: 4px double goldenrod;
-}
-.title2_font {
-  margin-left: 5vw;
-  margin-right: 5vw;
-  font-size: 200%;
-  color: gray;
-  text-shadow: 1px 1px 0 rgba(0,0,0,.2);
-}
-.nobordered_button {
-  border: none;
-  background: none;
-}
+
 .chart_area {
   position: relative;
   margin-left: 5vw;

@@ -10,6 +10,12 @@
   *:-ms-input-placeholder {
     color: #fff;
   }
+  html, body {
+    height: auto;
+  }
+  p {
+    font-size: 1.5vw;
+  }
   body {
     background-image: url(../images/username/ssbu_logo.jpeg);
     background-size: cover;
@@ -18,7 +24,6 @@
     background-position: center center;
 
     position: relative;
-    height: 100vh;
 
     font-family: 'Kosugi', sans-serif;
     color: rgb(255,255,204);
@@ -28,11 +33,11 @@
   .username-containter1 {
     text-align: center;
     width: 80vw;
-    height: 50vh;
+    height: auto;
 
     position: relative;
-    top: 10vh;
-    left: 10vw;
+    margin-top: 10vh;
+    margin-left: 10vw;
   }
   
   .username-headText {
@@ -79,9 +84,37 @@
     
     -webkit-box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
     box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+
+    margin-bottom: 12vh;
   }
 
   .username-submit-button:hover {
+    color: wheat;
+  }
+
+  .username-confirm-button {
+    margin-top: 5%;
+
+    -webkit-transform: skew(-15deg);
+    transform: skew(-15deg);
+    border-radius: 0;
+
+    width: 45vw;
+    height: 10vh;
+
+    font-size: 2.5vw;
+
+    background-image: -webkit-gradient(linear, left top, right top, from(deepskyblue), to(lime));
+    background-image: -webkit-linear-gradient(left, deepskyblue 0%, lime 100%);
+    background-image: linear-gradient(90deg, deepskyblue 0%, lime 100%);
+    
+    -webkit-box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
+    box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
+
+    margin-bottom: 12vh;
+  }
+
+  .username-confirm-button:hover {
     color: wheat;
   }
 
@@ -90,33 +123,35 @@
     margin-top: 2.5%;
   }
   header {
+    display: flex;
+    align-items: center;
     height: 8vh;
+    width: 100vw;
+  
+    margin-top: 0;
+    margin-bottom: 0;
+  
     background-color: red;
     font-family: 'Kosugi', sans-serif;
-    color: rgb(255,255,204);
+    color: rgb(255, 255, 204);
     text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
-    text-align: left;
     font-size: 4vh;
   }
-  .header-image{
-    margin-top: 2vh;
-    margin-left: 1%;
+  header a img {
+    margin-left: 5vw;
     height: 5vh;
   }
 
   footer {
-    position: absolute;
-    bottom: 0;
-
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  
     height: 6vh;
     width: 100vw;
     background-color: red;
     font-family: 'Kosugi', sans-serif;
-    color: rgb(255,255,204);
+    color: rgb(255, 255, 204);
     text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
-    text-align: center;
     font-size: 2.5vh;
-  }
-  .footer-text {
-    margin-top: 2vh;
   }
