@@ -32,6 +32,10 @@
 </head>
 
 <body>
+    <p>
+    スマブラ投票権!!は，ユーザがファイターをカジュアルに評価し，その結果を閲覧できるサイトです．<br>
+    他のユーザの意見を尊重し，楽しくサイトを使いましょう！<br>
+    </p>
     <div class="containter">
         <form action="" method="post" name="useraction" id="useraction">
             <button formaction="charaselect_vote.php" class="vote-button" type="submit" id="vote">投票する</button><br>

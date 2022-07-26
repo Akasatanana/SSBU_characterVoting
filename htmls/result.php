@@ -92,7 +92,7 @@ if ($result = $mysqli->prepare($sql)) {
 <head>
     <link rel="icon" type="image/png" href="../images/else/ssbu_characterVoting_icon.png">
     <meta charset="UTF-8">
-    <title>SSBU_charaVoting</title>
+    <title>スマブラ投票権!!_投票結果</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <title>スマブラ投票権!!_結果閲覧</title>
