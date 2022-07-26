@@ -9,6 +9,7 @@ $db_db = 'SSBU_charaVoting';
 */
 
 
+
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
@@ -101,12 +102,13 @@ if (isset($_POST["confirm"])) {
 <html lang="ja">
 
 <head>
+    <link rel="icon" type="image/png" href="images/else/ssbu_characterVoting_icon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale = 1">
-    <title>SSBU_charaVoting</title>
+    <title>スマブラ投票権!!_ログイン</title>
     <!--cssの初期化用，必ず先頭に-->
     <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
-    <link rel="stylesheet" href="../csss/login.css">
+    <link rel="stylesheet" href="csss/login.css">
     <!--googlefonts用-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,7 +118,7 @@ if (isset($_POST["confirm"])) {
 
     <header>
         <h1>
-            <a href="username.php"><img class="header-image" src="../images/else/ssbu_characterVoting_icon.png" alt="スマブラ投票権!!"></a>
+            <a href="login.php"><img class="header-image" src="images/else/ssbu_characterVoting_icon.png" alt="スマブラ投票権!!"></a>
             スマブラ投票権!!
         </h1>
     </header>
@@ -145,13 +147,13 @@ if (isset($_POST["confirm"])) {
         </p><br>
         <form action="" method="post" name="userdata" id="formId">
             <div class="usertype-select">
-                <input id = "new" type="radio" name="usertype" value="new" required> 新規ユーザ
-                <input id = "registerd" type="radio" name="usertype" value="registered"> 登録済み<br>
+                <input id="new" type="radio" name="usertype" value="new" required> 新規ユーザ
+                <input id="registerd" type="radio" name="usertype" value="registered"> 登録済み<br>
             </div>
             <input id="name" class="username-textbox" type="text" name="username" placeholder="ユーザ名" autocomplete="off" maxlength="60" required><br>
             <input id="password" class="username-textbox" type="text" name="password" placeholder="パスワード" autocomplete="off" maxlength="60" required><br>
             <button class="username-confirm-button" type="submit" name="confirm" id="confirm">認証</button><br>
-            <button class="username-submit-button" type="submit" name="submit" id="submit" style="display: none">キャラ選択へ</button>
+            <button class="username-submit-button" type="submit" name="submit" id="submit" style="display: none">マイページへ</button>
             <input type="hidden" name="usererrorType" value=0>
 
         </form>
@@ -159,7 +161,7 @@ if (isset($_POST["confirm"])) {
 
     <script type="text/javascript">
         if (<?php echo isset($_POST["usererrorType"]); ?> && <?php echo $_POST["usererrorType"]; ?> == -1) {
-            document.userdata.action = "charaselect.php";
+            document.userdata.action = "htmls/mypage.php";
             document.getElementById('confirm').style.display = 'none';
             document.getElementById('submit').style.display = 'inline';
 
@@ -169,14 +171,14 @@ if (isset($_POST["confirm"])) {
             let elements = document.getElementsByName('usertype');
             let len = elements.length;
 
-            for (let i = 0; i < len; i++){
-                if (elements.item(i).value == "<?php echo $_POST["usertype"]; ?>"){
+            for (let i = 0; i < len; i++) {
+                if (elements.item(i).value == "<?php echo $_POST["usertype"]; ?>") {
                     elements[i].checked = true;
                 }
             }
-            document.getElementById('name').disabled = true;
-            document.getElementById('password').disabled = true;
-            for (let i = 0; i < len; i++){
+            document.getElementById('name').readOnly = true;
+            document.getElementById('password').readOnly = true;
+            for (let i = 0; i < len; i++) {
                 elements[i].disabled = true;
             }
         }

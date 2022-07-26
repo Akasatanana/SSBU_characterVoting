@@ -22,6 +22,7 @@ body {
 header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 8vh;
   width: 100vw;
 
@@ -32,11 +33,12 @@ header {
   font-family: 'Kosugi', sans-serif;
   color: rgb(255, 255, 204);
   text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
-  font-size: 4vh;
+  font-size: 2vw;
 }
 header a img {
-  margin-left: 5vw;
-  height: 5vh;
+  margin-left: 2.5vw;
+  width: 2.5vw;
+  height: auto;
 }
 
 footer {
@@ -50,7 +52,7 @@ footer {
   font-family: 'Kosugi', sans-serif;
   color: rgb(255, 255, 204);
   text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
-  font-size: 2.5vh;
+  font-size: 1.5vw;
 }
 
 .title-text {

@@ -1,0 +1,131 @@
+*::-webkit-input-placeholder {
+    color: #fff;
+  }
+  *:-moz-placeholder {
+    color: #fff;
+  }
+  *::-moz-placeholder {
+    color: #fff;
+  }
+  *:-ms-input-placeholder {
+    color: #fff;
+  }
+  html, body {
+    min-height: 100vh;
+
+  }
+  body {
+    background-image: url(../images/username/ssbu_logo.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+    background-position: center center;
+
+    font-family: 'Kosugi', sans-serif;
+    color: rgb(255,255,204);
+    text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+  }
+  body p {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 4vw;
+  }
+  .result-text {
+    text-align: left;
+    margin-left: 5%;
+    font-size: 2vw;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 8vh;
+    width: 100vw;
+  
+    margin-top: 0;
+    margin-bottom: 0;
+  
+    background-color: red;
+    font-family: 'Kosugi', sans-serif;
+    color: rgb(255, 255, 204);
+    text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
+    font-size: 4vh;
+  }
+  header a img {
+    margin-left: 5vw;
+    height: 5vh;
+  }
+  header p {
+    margin-right: 5vw;
+    font-size: 50%;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  
+    height: 6vh;
+    width: 100vw;
+    background-color: red;
+    font-family: 'Kosugi', sans-serif;
+    color: rgb(255, 255, 204);
+    text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
+    font-size: 2.5vh;
+  }
+
+  .chart-area {
+    width: 35vw;
+    background-color: white;
+    border: gray;
+
+    padding: 2% 2% 2% 2%;
+  }
+
+
+  .chara-image {
+    width: 20vw;
+}
+.result-area {
+  margin-top: 5vh;
+  margin-left: 10vw;
+  max-width: 80vw;
+  min-height: 50vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+p {
+  font-size: 5vw;
+}
+.container {
+  text-align: center;
+}
+
+.submit-button {
+  margin-top: 5%;
+
+  -webkit-transform: skew(-15deg);
+  transform: skew(-15deg);
+  border-radius: 0;
+
+  width: 45vw;
+  height: 10vh;
+
+  font-size: 2.5vw;
+
+  background-image: -webkit-gradient(linear, left top, right top, from(red), to(orange));
+  background-image: -webkit-linear-gradient(left, red 0%, orange 100%);
+  background-image: linear-gradient(90deg, red 0%, orange 100%);
+  
+  -webkit-box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+  box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+
+  margin-bottom: 12vh;
+}
+
+.submit-button:hover {
+  color: wheat;
+}

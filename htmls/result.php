@@ -1,76 +1,152 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>SSBU_charaVoting</title>
-    <link rel="stylesheet" href="../csss/style.css">
-    <script src="../Library/chart.js"></script>
-    <!--チャート出力用-->
-</head>
+<?php
+if ($_POST["select-style"] == "vote") {
+    // ローカルでのDB
+    /*
+    $db_host = 'localhost';
+    $db_user = 'root';
+    $db_password = 'root';
+    $db_db = 'SSBU_charaVoting';
+    */
 
-<body>
-    <strong class = "title2_font">投稿ありがとう！</strong>
-    <?php
-        $db_host = 'mysql630.db.sakura.ne.jp';
-        $db_user = 'ssbu-charavoting';
-        $db_password = 'mkai0894';
-        $db_db = 'ssbu-charavoting_chara-voting';
+
+
+    // レンタルサーバでのDB
     
-        $mysqli = @new mysqli(
+    $db_host = 'mysql630.db.sakura.ne.jp';
+    $db_user = 'ssbu-charavoting';
+    $db_password = 'mkai0894';
+    $db_db = 'ssbu-charavoting_chara-voting';
+    
+
+
+    $mysqli = @new mysqli(
         $db_host,
         $db_user,
         $db_password,
         $db_db
-        );
+    );
 
-        if ($mysqli->connect_error) {
-            echo $mysqli->connect_error;
-            exit();
-        } else {
-            $mysqli->set_charset("utf8");
+    if ($mysqli->connect_error) {
+        echo $mysqli->connect_error;
+        exit();
+    } else {
+        $mysqli->set_charset("utf8");
+    }
+
+    $charaname = explode(".", explode("/", $_POST["charaurl"])[4])[0];
+
+    $sql = "SELECT username, charaname FROM characterVoting WHERE username=? AND charaname=?";
+    if ($result = $mysqli->prepare($sql)) {
+        $result->bind_param("ss", $_POST['username'], $charaname);
+        $result->execute();
+
+        $result->store_result(); // これ忘れるとnum_rowsは0
+        $rows = $result->num_rows;
+        $alreadyVoted = ($rows != 0);
+        if (!$alreadyVoted) {
+            // (4)プリペアドステートメントの用意
+            $stmt = $mysqli->prepare('INSERT INTO characterVoting (
+            username, charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )');
+
+            // (5)登録するデータをセット
+            $stmt->bind_param('ssiiiiiiiiii', $_POST['username'], $charaname, $_POST['damage'], $_POST['mobility'], $_POST['defense'], $_POST['burst'], $_POST['upset'], $_POST['neutral'], $_POST['edge'], $_POST['forceadapt'], $_POST['projectiles'], $_POST['difficulty']);
+            // (6)登録実行
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+
+    $sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE charaname = ?";
+    if ($result = $mysqli->prepare($sql)) {
+        $result->bind_param("s", $charaname);
+        $result->execute();
+
+        $result->store_result(); // これ忘れるとnum_rowsは0
+        $rows = $result->num_rows;
+        $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+
+        $avelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        while ($result->fetch()) {
+            for ($i = 0; $i < count($resultlist); $i++) {
+                $avelist[$i] += $resultlist[$i];
+            }
+        }
+        $result->close();
+        for ($i = 0; $i < count($resultlist); $i++) {
+            $avelist[$i] /= $rows;
         }
 
-        // (4)プリペアドステートメントの用意
-        $stmt = $mysqli->prepare('INSERT INTO characterVoting (
-            charaname, damage, mobility, returnability, burstability, breakability, copability, resistanceForCS, popularity
-          ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?
-          )');
-        // (5)登録するデータをセット
-        $stmt->bind_param('siiiiiiii', $_POST['charaname'], $_POST['damage'], $_POST['mobility'], $_POST['returnability'], $_POST['burstability'], $_POST['breakability'], $_POST['copability'], $_POST['resistanceForCS'], $_POST['popularity']);
-        // (6)登録実行
-        $stmt->execute();
-        $stmt->close();
+        $avelist_json = json_encode($avelist);
+    }
+}
+?>
 
-        $sql = "SELECT damage, mobility, returnability, burstability, breakability, copability, resistanceForCS, popularity FROM characterVoting WHERE charaname = ?";
-        if ($result = $mysqli->prepare($sql)) {
-            $result->bind_param("s", $_POST['charaname']);
-            $result->execute();
 
-            $result->store_result(); // これ忘れるとnum_rowsは0
-            $rows = $result->num_rows;
-            $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0);
-            $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7]);
+<!DOCTYPE html>
+<html lang="ja">
 
-            $avelist = array(0, 0, 0, 0, 0, 0, 0, 0);
+<head>
+    <link rel="icon" type="image/png" href="../images/else/ssbu_characterVoting_icon.png">
+    <meta charset="UTF-8">
+    <title>SSBU_charaVoting</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <title>スマブラ投票権!!_結果閲覧</title>
+    <!--cssの初期化用，必ず先頭に-->
+    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
 
-            while ($result->fetch()) {
-                for($i = 0; $i < count($resultlist); $i++){
-                    $avelist[$i] += $resultlist[$i];
+    <link rel="stylesheet" href="../csss/result.css">
+    <script src="../Library/chart.js"></script>
+    <!--googlefonts用-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi&display=swap" rel="stylesheet">
+    <!--fontawesome用-->
+    <script src="https://kit.fontawesome.com/e435c5f384.js" crossorigin="anonymous"></script>
+</head>
+
+<header>
+    <h1>
+        <a href="../login.php"><img class="header-image" src="../images/else/ssbu_characterVoting_icon.png" alt="スマブラ投票権!!"></a>
+        スマブラ投票権!!
+    </h1>
+
+    <h1>
+        ようこそ，<?php echo $_POST["username"]; ?>さん　
+    </h1>
+</header>
+
+<body>
+    <div class="container">
+        <p>
+            <?php
+            if ($_POST["select-style"] == 'vote') {
+                if ($alreadyVoted) {
+                    echo "エラー：各ファイターへの投票は一人一票までです．";
+                } else {
+                    echo "投票が完了しました！";
                 }
             }
-            $result->close();
-            for($i = 0; $i < count($resultlist); $i++){
-                $avelist[$i] /= $rows;
-            }
+            ?>
+        </p>
+        <p class="result-text">投票結果（全投票の平均値）：</p>
+        <div class="result-area">
+            <div class="chart-area">
+                <canvas id="myRadarChart">
+                </canvas>
+            </div>
+            <img class="chara-image" src=<?php echo $_POST["charaurl"]; ?>>
+        </div>
+        <form action="mypage.php" method="post">
+            <button class="submit-button" type="submit" name="submit" id="submit">マイページへ</button>
+            <input type="hidden" name="username" value='<?php echo $_POST["username"]; ?>'>
+        </form>
 
-            $avelist_json = json_encode($avelist);
-        }
-    ?>
-
-    <div style= "position:relative;width:500px;height:500px;">
-        <canvas id="myRadarChart" width="">
-        </canvas>
     </div>
 
     <script>
@@ -82,45 +158,48 @@
             //データの設定
             data: {
                 //データ項目のラベル
-                labels: ["火力", "機動力", "復帰力", "撃墜力", "破壊力", "立ち回り", "飛び道具耐性", "人気"],
+                labels: ["火力", "機動力", "防御力", "撃墜力", "アップセット力", "立ち回り", "崖", "初見殺し力", "飛び道具耐性", "難易度"],
                 //データセット
-                datasets: [
-                    {
-                        label: "〇〇",
-                        //背景色
-                        backgroundColor: "rgba(204,255,204, 0.5)",
-                        //枠線の色
-                        borderColor: "rgba(0,128,0, 1)",
-                        //結合点の背景色
-                        pointBackgroundColor: "rgba(0,128,0, 1)",
-                        //結合点の枠線の色
-                        pointBorderColor: "#fff",
-                        //結合点の背景色（ホバ時）
-                        pointHoverBackgroundColor: "#fff",
-                        //結合点の枠線の色（ホバー時）
-                        pointHoverBorderColor: "rgba(0,128,0, 1)",
-                        //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
-                        hitRadius: 5,
-                        //グラフのデータ
-                        data: avelist,
-                    }
-                ]
+                datasets: [{
+                    label: "",
+                    //背景色
+                    backgroundColor: "rgba(204,255,204, 0.5)",
+                    //枠線の色
+                    borderColor: "rgba(0,128,0, 1)",
+                    //結合点の背景色
+                    pointBackgroundColor: "rgba(0,128,0, 1)",
+                    //結合点の枠線の色
+                    pointBorderColor: "#fff",
+                    //結合点の背景色（ホバ時）
+                    pointHoverBackgroundColor: "#fff",
+                    //結合点の枠線の色（ホバー時）
+                    pointHoverBorderColor: "rgba(0,128,0, 1)",
+                    //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+                    hitRadius: 5,
+                    fill: true,
+                    //グラフのデータ
+                    data: avelist,
+                }]
             },
             options: {
-                // レスポンシブ指定
                 responsive: true,
-                scale: {
-                ticks: {
-                    // 最小値の値を0指定
-                    min: 0,
-                    // 最大値を指定
-                    max: 10,
-                    stepSize: 0.1,
-                }
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 10,
+                    },
                 }
             }
         });
     </script>
 
 </body>
+
+<footer>
+    <h1 class="footer-text">
+        Respected
+        <a href="https://www.smashbros.com/ja_JP/">大乱闘スマッシュブラザーズ</a>
+    </h1>
+</footer>
+
 </html>
