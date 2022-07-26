@@ -65,7 +65,7 @@ if ($result = $mysqli->prepare($sql)) {
     <!--cssの初期化用，必ず先頭に-->
     <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
 
-    <link rel="stylesheet" href="../csss/result.css">
+    <link rel="stylesheet" href="../csss/myvote.css">
     <script src="../Library/chart.js"></script>
     <!--googlefonts用-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
