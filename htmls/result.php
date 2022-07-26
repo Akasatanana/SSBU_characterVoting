@@ -1,7 +1,6 @@
 <?php
-if ($_POST["select-style"] == "vote") {
-    // ローカルでのDB
-    /*
+// ローカルでのDB
+/*
     $db_host = 'localhost';
     $db_user = 'root';
     $db_password = 'root';
@@ -10,31 +9,31 @@ if ($_POST["select-style"] == "vote") {
 
 
 
-    // レンタルサーバでのDB
-    
-    $db_host = 'mysql630.db.sakura.ne.jp';
-    $db_user = 'ssbu-charavoting';
-    $db_password = 'mkai0894';
-    $db_db = 'ssbu-charavoting_chara-voting';
-    
+// レンタルサーバでのDB
+
+$db_host = 'mysql630.db.sakura.ne.jp';
+$db_user = 'ssbu-charavoting';
+$db_password = 'mkai0894';
+$db_db = 'ssbu-charavoting_chara-voting';
 
 
-    $mysqli = @new mysqli(
-        $db_host,
-        $db_user,
-        $db_password,
-        $db_db
-    );
 
-    if ($mysqli->connect_error) {
-        echo $mysqli->connect_error;
-        exit();
-    } else {
-        $mysqli->set_charset("utf8");
-    }
+$mysqli = @new mysqli(
+    $db_host,
+    $db_user,
+    $db_password,
+    $db_db
+);
 
-    $charaname = explode(".", explode("/", $_POST["charaurl"])[4])[0];
+if ($mysqli->connect_error) {
+    echo $mysqli->connect_error;
+    exit();
+} else {
+    $mysqli->set_charset("utf8");
+}
 
+$charaname = explode(".", explode("/", $_POST["charaurl"])[4])[0];
+if ($_POST["select-style"] == "vote") {
     $sql = "SELECT username, charaname FROM characterVoting WHERE username=? AND charaname=?";
     if ($result = $mysqli->prepare($sql)) {
         $result->bind_param("ss", $_POST['username'], $charaname);
@@ -58,31 +57,31 @@ if ($_POST["select-style"] == "vote") {
             $stmt->close();
         }
     }
+}
 
-    $sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE charaname = ?";
-    if ($result = $mysqli->prepare($sql)) {
-        $result->bind_param("s", $charaname);
-        $result->execute();
+$sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE charaname = ?";
+if ($result = $mysqli->prepare($sql)) {
+    $result->bind_param("s", $charaname);
+    $result->execute();
 
-        $result->store_result(); // これ忘れるとnum_rowsは0
-        $rows = $result->num_rows;
-        $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-        $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+    $result->store_result(); // これ忘れるとnum_rowsは0
+    $rows = $result->num_rows;
+    $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
 
-        $avelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    $avelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        while ($result->fetch()) {
-            for ($i = 0; $i < count($resultlist); $i++) {
-                $avelist[$i] += $resultlist[$i];
-            }
-        }
-        $result->close();
+    while ($result->fetch()) {
         for ($i = 0; $i < count($resultlist); $i++) {
-            $avelist[$i] /= $rows;
+            $avelist[$i] += $resultlist[$i];
         }
-
-        $avelist_json = json_encode($avelist);
     }
+    $result->close();
+    for ($i = 0; $i < count($resultlist); $i++) {
+        $avelist[$i] /= $rows;
+    }
+
+    $avelist_json = json_encode($avelist);
 }
 ?>
 
