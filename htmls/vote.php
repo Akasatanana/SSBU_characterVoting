@@ -30,7 +30,9 @@
 </header>
 
 <body>
-    <p>評価項目をあなたなりに解釈し，数値を入力してください．</p>
+    <p>評価項目を貴方なりに解釈し，数値を入力してください．<br>
+    各ファイターへの投票は一人一票までです．
+    </p>
     <form id="vote" method="POST" , action="result.php">
         <div class="container">
             <img class="chara-image" src=<?php echo $_POST["charaurl"]; ?>><br>
