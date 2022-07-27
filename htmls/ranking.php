@@ -1,4 +1,16 @@
 <?php
+$parameters = [
+    "damage" => "火力",
+    "mobility" => "機動力",
+    "defense" => "防御力",
+    "burst" => "撃墜力",
+    "upset" => "アップセット力",
+    "neutral" => "立ち回り",
+    "edge" => "崖",
+    "forceadapt" => "初見殺し",
+    "projectiles" => "飛び道具耐性",
+    "difficulty" => "難易度"
+];
 /*
 // ローカルでのDB
 $db_host = 'localhost';
@@ -86,7 +98,16 @@ if ($result = $mysqli->prepare($sql)) {
 </header>
 
 <body>
-    <p>ランキング</p>
+    <p>
+        <?php
+        foreach ($parameters as $en => $jp) {
+            if($_POST["parameter"] == $en){
+                echo $jp;
+            }
+        }
+        ?>
+        ランキング
+    </p>
     <form class="parameter-form" action="" method="post">
         <button name="parameter" value="damage">火力</button>
         <button name="parameter" value="mobility">機動力</button>
@@ -98,6 +119,7 @@ if ($result = $mysqli->prepare($sql)) {
         <button name="parameter" value="forceadapt">初見殺し</button>
         <button name="parameter" value="projectiles">飛び道具耐性</button>
         <button name="parameter" value="difficulty">難易度</button>
+        <input type="hidden" name="username" value='<?php echo $_POST["username"]; ?>'>
     </form>
     <div class="container">
         <?php
