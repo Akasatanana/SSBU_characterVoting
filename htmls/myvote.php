@@ -8,7 +8,6 @@ $db_db = 'SSBU_charaVoting';
 */
 
 
-
 // レンタルサーバでのDB
    $db_host = 'mysql630.db.sakura.ne.jp';
    $db_user = 'ssbu-charavoting';
@@ -29,7 +28,7 @@ if ($mysqli->connect_error) {
     $mysqli->set_charset("utf8");
 }
 
-$sql = "SELECT charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE username=?";
+$sql = "SELECT charaname, damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty FROM characterVoting WHERE username=?";
 if ($result = $mysqli->prepare($sql)) {
     $result->bind_param("s", $_POST['username'],);
     $result->execute();
@@ -39,12 +38,12 @@ if ($result = $mysqli->prepare($sql)) {
     $noVote = ($rows == 0);
     if (!$noVote) {
         $charaname = "";
-        $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+        $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10],$resultlist[11],$resultlist[12]);
         $result_array = [];
         while ($result->fetch()) {
-            $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]];
+            $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10],$resultlist[11],$resultlist[12]];
         }
         $result->close();
         $result_json = json_encode($result_array);
@@ -116,7 +115,7 @@ if ($result = $mysqli->prepare($sql)) {
                 //データの設定
                 data: {
                     //データ項目のラベル
-                    labels: ["火力", "機動力", "防御力", "撃墜力", "アップセット力", "立ち回り", "崖", "初見殺し力", "飛び道具耐性", "難易度"],
+                    labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                     //データセット
                     datasets: [{
                         label: "",

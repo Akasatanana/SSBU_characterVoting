@@ -4,11 +4,14 @@ $parameters = [
     "mobility" => "機動力",
     "defense" => "防御力",
     "burst" => "撃墜力",
-    "upset" => "アップセット力",
+    "reversal" => "逆転力",
     "neutral" => "立ち回り",
     "edge" => "崖",
-    "forceadapt" => "初見殺し",
+    "recovery" => "復帰力",
+    "edgeguard" => "復帰阻止",
+    "easywin" => "処理性能",
     "projectiles" => "飛び道具耐性",
+    "consistency" => "安定力",
     "difficulty" => "難易度"
 ];
 /*
@@ -18,7 +21,6 @@ $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
 */
-
 
 
 // レンタルサーバでのDB
@@ -46,18 +48,18 @@ if (!isset($_POST["parameter"])) {
 }
 $orderparameter = $_POST["parameter"];
 
-$sql = "SELECT charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM averageCharacterVote ORDER BY " . $orderparameter . " DESC";
+$sql = "SELECT charaname, damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty FROM averageCharacterVote ORDER BY " . $orderparameter . " DESC";
 if ($result = $mysqli->prepare($sql)) {
     $result->execute();
     $result->store_result();
 
     $charaname = "";
-    $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+    $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10], $resultlist[11], $resultlist[12]);
     $result_array = [];
     while ($result->fetch()) {
-        $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]];
+        $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10], $resultlist[11], $resultlist[12]];
     }
     $result_json = json_encode($result_array);
     $result->close();
@@ -113,17 +115,23 @@ if ($result = $mysqli->prepare($sql)) {
         <button name="parameter" value="mobility">機動力</button>
         <button name="parameter" value="defense">防御力</button>
         <button name="parameter" value="burst">撃墜力</button>
-        <button name="parameter" value="upset">アップセット</button>
+        <button name="parameter" value="reversal">逆転力</button>
         <button name="parameter" value="neutral">立ち回り</button>
         <button name="parameter" value="edge">崖</button>
-        <button name="parameter" value="forceadapt">初見殺し</button>
+        <button name="parameter" value="recovery">復帰力</button>
+        <button name="parameter" value="edgeguard">復帰阻止</button>
+        <button name="parameter" value="easywin">処理性能</button>
         <button name="parameter" value="projectiles">飛び道具耐性</button>
+        <button name="parameter" value="consistency">安定</button>
         <button name="parameter" value="difficulty">難易度</button>
         <input type="hidden" name="username" value='<?php echo $_POST["username"]; ?>'>
     </form>
     <div class="container">
         <?php
+        $i = 0;
         foreach ($result_array as $name => $value) {
+            $i++;
+            echo '<p>',$i,'位</p>';
             echo '<div class="result-area">
             <div class="chart-area">
                 <canvas id="', $name, '">
@@ -150,7 +158,7 @@ if ($result = $mysqli->prepare($sql)) {
                 //データの設定
                 data: {
                     //データ項目のラベル
-                    labels: ["火力", "機動力", "防御力", "撃墜力", "アップセット力", "立ち回り", "崖", "初見殺し力", "飛び道具耐性", "難易度"],
+                    labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                     //データセット
                     datasets: [{
                         label: "",

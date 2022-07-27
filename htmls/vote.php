@@ -37,7 +37,7 @@
             <p class="explaination-text">　各項目に関して，ファイターに対するあなたの評価値を入力してください.</p>
             <hr>
             <div class="input-area">
-                <h1>１．火力</h1>
+                <h1>1.火力</h1>
                 <input id="damage-range" type="range" name="damage" min="1" max="10" step="1" value="5"><br>
                 <h2><span id="damage-value">5</span>/10</h2>
                 <script>
@@ -54,41 +54,7 @@
 
             <hr>
             <div class="input-area">
-                <h1>2.撃墜力</h1>
-                <input id="burst-range" type="range" name="burst" min="1" max="10" step="1" value="5"><br>
-                <h2><span id="burst-value">5</span>/10</h2>
-                <script>
-                    var elem = document.getElementById('burst-range');
-                    var target = document.getElementById('burst-value');
-                    var rangeValue = function(elem, target) {
-                        return function(evt) {
-                            target.innerHTML = elem.value;
-                        }
-                    }
-                    elem.addEventListener('input', rangeValue(elem, target));
-                </script>
-            </div>
-
-            <hr>
-            <div class="input-area">
-                <h1>3.アップセット力</h1>
-                <input id="upset-range" type="range" name="upset" min="1" max="10" step="1" value="5"><br>
-                <h2><span id="upset-value">5</span>/10</h2>
-                <script>
-                    var elem = document.getElementById('upset-range');
-                    var target = document.getElementById('upset-value');
-                    var rangeValue = function(elem, target) {
-                        return function(evt) {
-                            target.innerHTML = elem.value;
-                        }
-                    }
-                    elem.addEventListener('input', rangeValue(elem, target));
-                </script>
-            </div>
-
-            <hr>
-            <div class="input-area">
-                <h1>4.機動力</h1>
+                <h1>2.機動力</h1>
                 <input id="mobility-range" type="range" name="mobility" min="1" max="10" step="1" value="5"><br>
                 <h2><span id="mobility-value">5</span>/10</h2>
                 <script>
@@ -105,7 +71,7 @@
 
             <hr>
             <div class="input-area">
-                <h1>5.防御力</h1>
+                <h1>3.防御力</h1>
                 <input id="defense-range" type="range" name="defense" min="1" max="10" step="1" value="5"><br>
                 <h2><span id="defense-value">5</span>/10</h2>
                 <script>
@@ -122,12 +88,12 @@
 
             <hr>
             <div class="input-area">
-                <h1>6.難易度(難しいほど高い数値)</h1>
-                <input id="difficulty-range" type="range" name="difficulty" min="1" max="10" step="1" value="5"><br>
-                <h2><span id="difficulty-value">5</span>/10</h2>
+                <h1>4.撃墜力</h1>
+                <input id="burst-range" type="range" name="burst" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="burst-value">5</span>/10</h2>
                 <script>
-                    var elem = document.getElementById('difficulty-range');
-                    var target = document.getElementById('difficulty-value');
+                    var elem = document.getElementById('burst-range');
+                    var target = document.getElementById('burst-value');
                     var rangeValue = function(elem, target) {
                         return function(evt) {
                             target.innerHTML = elem.value;
@@ -136,6 +102,41 @@
                     elem.addEventListener('input', rangeValue(elem, target));
                 </script>
             </div>
+
+            <hr>
+            <div class="input-area">
+                <h1>5.逆転力</h1>
+                <input id="reversal-range" type="range" name="reversal" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="reversal-value">5</span>/10</h2>
+                <script>
+                    var elem = document.getElementById('reversal-range');
+                    var target = document.getElementById('reversal-value');
+                    var rangeValue = function(elem, target) {
+                        return function(evt) {
+                            target.innerHTML = elem.value;
+                        }
+                    }
+                    elem.addEventListener('input', rangeValue(elem, target));
+                </script>
+            </div>
+
+            <hr>
+            <div class="input-area">
+                <h1>6.立ち回りの強さ</h1>
+                <input id="neutral-range" type="range" name="neutral" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="neutral-value">5</span>/10</h2>
+                <script>
+                    var elem = document.getElementById('neutral-range');
+                    var target = document.getElementById('neutral-value');
+                    var rangeValue = function(elem, target) {
+                        return function(evt) {
+                            target.innerHTML = elem.value;
+                        }
+                    }
+                    elem.addEventListener('input', rangeValue(elem, target));
+                </script>
+            </div>
+
 
             <hr>
             <div class="input-area">
@@ -154,14 +155,45 @@
                 </script>
             </div>
 
-            <hr>
             <div class="input-area">
-                <h1>8.立ち回りの強さ</h1>
-                <input id="neutral-range" type="range" name="neutral" min="1" max="10" step="1" value="5"><br>
-                <h2><span id="neutral-value">5</span>/10</h2>
+                <h1>8.復帰力</h1>
+                <input id="recovery-range" type="range" name="recovery" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="recovery-value">5</span>/10</h2>
                 <script>
-                    var elem = document.getElementById('neutral-range');
-                    var target = document.getElementById('neutral-value');
+                    var elem = document.getElementById('recovery-range');
+                    var target = document.getElementById('recovery-value');
+                    var rangeValue = function(elem, target) {
+                        return function(evt) {
+                            target.innerHTML = elem.value;
+                        }
+                    }
+                    elem.addEventListener('input', rangeValue(elem, target));
+                </script>
+            </div>
+
+            <div class="input-area">
+                <h1>9.復帰阻止の強さ</h1>
+                <input id="edgeguard-range" type="range" name="edgeguard" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="edgeguard-value">5</span>/10</h2>
+                <script>
+                    var elem = document.getElementById('edgeguard-range');
+                    var target = document.getElementById('edgeguard-value');
+                    var rangeValue = function(elem, target) {
+                        return function(evt) {
+                            target.innerHTML = elem.value;
+                        }
+                    }
+                    elem.addEventListener('input', rangeValue(elem, target));
+                </script>
+            </div>
+
+            <div class="input-area">
+                <h1>10.処理性能</h1>
+                <input id="easywin-range" type="range" name="easywin" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="easywin-value">5</span>/10</h2>
+                <script>
+                    var elem = document.getElementById('easywin-range');
+                    var target = document.getElementById('easywin-value');
                     var rangeValue = function(elem, target) {
                         return function(evt) {
                             target.innerHTML = elem.value;
@@ -173,7 +205,7 @@
 
             <hr>
             <div class="input-area">
-                <h1>9.飛び道具への強さ</h1>
+                <h1>11.飛び道具への強さ</h1>
                 <input id="projectiles-range" type="range" name="projectiles" min="1" max="10" step="1" value="5"><br>
                 <h2><span id="projectiles-value">5</span>/10</h2>
                 <script>
@@ -190,12 +222,29 @@
 
             <hr>
             <div class="input-area">
-                <h1>10.初見殺し力</h1>
-                <input id="forceadapt-range" type="range" name="forceadapt" min="1" max="10" step="1" value="5"><br>
-                <h2><span id="forceadapt-value">5</span>/10</h2>
+                <h1>12.安定のしやすさ</h1>
+                <input id="consistency-range" type="range" name="consistency" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="consistency-value">5</span>/10</h2>
                 <script>
-                    var elem = document.getElementById('forceadapt-range');
-                    var target = document.getElementById('forceadapt-value');
+                    var elem = document.getElementById('consistency-range');
+                    var target = document.getElementById('consistency-value');
+                    var rangeValue = function(elem, target) {
+                        return function(evt) {
+                            target.innerHTML = elem.value;
+                        }
+                    }
+                    elem.addEventListener('input', rangeValue(elem, target));
+                </script>
+            </div>
+
+            <hr>
+            <div class="input-area">
+                <h1>13.難易度(難しいほど高い数値)</h1>
+                <input id="difficulty-range" type="range" name="difficulty" min="1" max="10" step="1" value="5"><br>
+                <h2><span id="difficulty-value">5</span>/10</h2>
+                <script>
+                    var elem = document.getElementById('difficulty-range');
+                    var target = document.getElementById('difficulty-value');
                     var rangeValue = function(elem, target) {
                         return function(evt) {
                             target.innerHTML = elem.value;

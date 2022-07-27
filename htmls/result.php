@@ -8,7 +8,6 @@ $db_db = 'SSBU_charaVoting';
 */
 
 
-
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
@@ -43,28 +42,28 @@ if ($_POST["select-style"] == "vote") {
         $result->close();
         if (!$alreadyVoted) {
             // 投票の反映
-            $stmt = $mysqli->prepare('INSERT INTO characterVoting (username, charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty
+            $stmt = $mysqli->prepare('INSERT INTO characterVoting (username, charaname, damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty
             ) VALUES (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             )');
 
-            $stmt->bind_param('ssiiiiiiiiii', $_POST['username'], $charaname, $_POST['damage'], $_POST['mobility'], $_POST['defense'], $_POST['burst'], $_POST['upset'], $_POST['neutral'], $_POST['edge'], $_POST['forceadapt'], $_POST['projectiles'], $_POST['difficulty']);
+            $stmt->bind_param('ssiiiiiiiiiiiii', $_POST['username'], $charaname, $_POST['damage'], $_POST['mobility'], $_POST['defense'], $_POST['burst'], $_POST['reversal'], $_POST['neutral'], $_POST['edge'],$_POST['recovery'],$_POST['edgeguard'],$_POST['easywin'], $_POST['projectiles'],$_POST['consistency'], $_POST['difficulty']);
             $stmt->execute();
             $stmt->close();
 
             // 平均値の再計算
 
-            $sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE charaname = ?";
+            $sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty FROM characterVoting WHERE charaname = ?";
             if ($result = $mysqli->prepare($sql)) {
                 $result->bind_param("s", $charaname);
                 $result->execute();
 
                 $result->store_result();
                 $rows = $result->num_rows;
-                $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-                $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+                $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10], $resultlist[11], $resultlist[12]);
 
-                $newavelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                $newavelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                 while ($result->fetch()) {
                     for ($i = 0; $i < count($resultlist); $i++) {
@@ -94,20 +93,20 @@ if ($_POST["select-style"] == "vote") {
 
                     // 平均値の登録
                     $stmt = $mysqli->prepare('UPDATE averageCharacterVote
-                    SET damage = ?, mobility = ?, defense = ?, burst = ?, upset = ?, neutral = ?, edge = ?, forceadapt = ?, projectiles = ?, difficulty = ?
+                    SET damage = ?, mobility = ?, defense = ?, burst = ?, reversal = ?, neutral = ?, edge = ?,recovery = ?,edgeguard = ?,easywin = ?, projectiles = ?, consistency = ?, difficulty = ?
                     WHERE charaname = ?');
-                    $stmt->bind_param('dddddddddds', $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $charaname);
+                    $stmt->bind_param('ddddddddddddds', $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9],$newavelist[10],$newavelist[11],$newavelist[12], $charaname);
                     $stmt->execute();
                     $stmt->close();
                 } else {
                     // そうでなければINSERT
                     $stmt = $mysqli->prepare('INSERT INTO averageCharacterVote (
-                        charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty
+                        charaname, damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty
                     ) VALUES (
-                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                     )');
 
-                    $stmt->bind_param('sdddddddddd', $charaname, $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9]);
+                    $stmt->bind_param('sddddddddddddd', $charaname, $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $newavelist[10], $newavelist[11], $newavelist[12]);
                     $stmt->execute();
                     $stmt->close();
                 }
@@ -116,15 +115,16 @@ if ($_POST["select-style"] == "vote") {
     }
 }
 
-$sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM averageCharacterVote WHERE charaname=?";
+$sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty
+FROM averageCharacterVote WHERE charaname=?";
 if ($result = $mysqli->prepare($sql)) {
     $result->bind_param("s", $charaname);
     $result->execute();
     $result->store_result();
 
-    $avelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    $avelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    $result->bind_result($avelist[0], $avelist[1], $avelist[2], $avelist[3], $avelist[4], $avelist[5], $avelist[6], $avelist[7], $avelist[8], $avelist[9]);
+    $result->bind_result($avelist[0], $avelist[1], $avelist[2], $avelist[3], $avelist[4], $avelist[5], $avelist[6], $avelist[7], $avelist[8], $avelist[9], $avelist[10], $avelist[11], $avelist[12]);
     $result->fetch();
     $avelist_json = json_encode($avelist);
 }
@@ -200,7 +200,7 @@ if ($result = $mysqli->prepare($sql)) {
             //データの設定
             data: {
                 //データ項目のラベル
-                labels: ["火力", "機動力", "防御力", "撃墜力", "アップセット力", "立ち回り", "崖", "初見殺し力", "飛び道具耐性", "難易度"],
+                labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                 //データセット
                 datasets: [{
                     label: "",

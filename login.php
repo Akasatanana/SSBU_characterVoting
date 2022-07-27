@@ -8,7 +8,6 @@ $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
 */
 
-
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';

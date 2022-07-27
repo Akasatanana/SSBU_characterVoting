@@ -103,6 +103,10 @@ p {
 .container {
   text-align: center;
 }
+.container p {
+  text-align: left;
+  margin-left: 10vw;
+}
 
 .submit-button {
   margin-top: 5%;
@@ -137,7 +141,7 @@ p {
 }
 
 .parameter-form button {
-  width: 10%;
+  width: 7.69%;
 }
 
 .parameter-form button:hover {
