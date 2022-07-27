@@ -1,20 +1,19 @@
 <?php
+/*
 // ローカルでのDB
-
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
+*/
 
 
 
 // レンタルサーバでのDB
-/*
    $db_host = 'mysql630.db.sakura.ne.jp';
    $db_user = 'ssbu-charavoting';
    $db_password = 'mkai0894';
    $db_db = 'ssbu-charavoting_chara-voting';
-*/
 
 $mysqli = @new mysqli(
     $db_host,
