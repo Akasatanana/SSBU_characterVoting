@@ -4,8 +4,6 @@
 <head>
     <link rel="icon" type="image/png" href="../images/else/ssbu_characterVoting_icon.png">
     <meta charset="UTF-8">
-    <title>SSBU_charaVoting</title>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <title>スマブラ投票権!!_投票</title>
     <!--cssの初期化用，必ず先頭に-->
@@ -32,8 +30,8 @@
 </header>
 
 <body>
+    <p>評価項目をあなたなりに解釈し，数値を入力してください．</p>
     <form id="vote" method="POST" , action="result.php">
-
         <div class="container">
             <img class="chara-image" src=<?php echo $_POST["charaurl"]; ?>><br>
             <p class="explaination-text">　各項目に関して，ファイターに対するあなたの評価値を入力してください.</p>
@@ -124,7 +122,7 @@
 
             <hr>
             <div class="input-area">
-                <h1>6.難易度</h1>
+                <h1>6.難易度(難しいほど高い数値)</h1>
                 <input id="difficulty-range" type="range" name="difficulty" min="1" max="10" step="1" value="5"><br>
                 <h2><span id="difficulty-value">5</span>/10</h2>
                 <script>

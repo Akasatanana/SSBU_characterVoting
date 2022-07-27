@@ -1,21 +1,19 @@
 <?php
 // ローカルでのDB
-/*
-    $db_host = 'localhost';
-    $db_user = 'root';
-    $db_password = 'root';
-    $db_db = 'SSBU_charaVoting';
-    */
+$db_host = 'localhost';
+$db_user = 'root';
+$db_password = 'root';
+$db_db = 'SSBU_charaVoting';
 
 
 
 // レンタルサーバでのDB
-
+/*
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
-
+*/
 
 
 $mysqli = @new mysqli(
@@ -34,53 +32,100 @@ if ($mysqli->connect_error) {
 
 $charaname = explode(".", explode("/", $_POST["charaurl"])[4])[0];
 if ($_POST["select-style"] == "vote") {
+    // 投票済みでないかのチェック
     $sql = "SELECT username, charaname FROM characterVoting WHERE username=? AND charaname=?";
     if ($result = $mysqli->prepare($sql)) {
         $result->bind_param("ss", $_POST['username'], $charaname);
         $result->execute();
-
-        $result->store_result(); // これ忘れるとnum_rowsは0
+        $result->store_result();
         $rows = $result->num_rows;
         $alreadyVoted = ($rows != 0);
+        $result->close();
         if (!$alreadyVoted) {
-            // (4)プリペアドステートメントの用意
-            $stmt = $mysqli->prepare('INSERT INTO characterVoting (
-            username, charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-        )');
+            // 投票の反映
+            $stmt = $mysqli->prepare('INSERT INTO characterVoting (username, charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty
+            ) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            )');
 
-            // (5)登録するデータをセット
             $stmt->bind_param('ssiiiiiiiiii', $_POST['username'], $charaname, $_POST['damage'], $_POST['mobility'], $_POST['defense'], $_POST['burst'], $_POST['upset'], $_POST['neutral'], $_POST['edge'], $_POST['forceadapt'], $_POST['projectiles'], $_POST['difficulty']);
-            // (6)登録実行
             $stmt->execute();
             $stmt->close();
+
+            // 平均値の再計算
+
+            $sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE charaname = ?";
+            if ($result = $mysqli->prepare($sql)) {
+                $result->bind_param("s", $charaname);
+                $result->execute();
+
+                $result->store_result();
+                $rows = $result->num_rows;
+                $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+
+                $newavelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                while ($result->fetch()) {
+                    for ($i = 0; $i < count($resultlist); $i++) {
+                        $newavelist[$i] += $resultlist[$i];
+                    }
+                }
+                for ($i = 0; $i < count($resultlist); $i++) {
+                    $newavelist[$i] /= $rows;
+                }
+                $result->close();
+            }
+
+            // 平均値データの存在を確認
+
+            $sql = "SELECT * FROM averageCharacterVote WHERE charaname=?";
+            if ($result = $mysqli->prepare($sql)) {
+                $result->bind_param("s", $charaname);
+                $result->execute();
+
+                $result->store_result();
+                $rows = $result->num_rows;
+                $result->close();
+                $alreadyExists = ($rows != 0);
+
+                if ($alreadyExists) {
+                    // 平均値データが存在すれば，UPDATE
+
+                    // 平均値の登録
+                    $stmt = $mysqli->prepare('UPDATE averageCharacterVote
+                    SET damage = ?, mobility = ?, defense = ?, burst = ?, upset = ?, neutral = ?, edge = ?, forceadapt = ?, projectiles = ?, difficulty = ?
+                    WHERE charaname = ?');
+                    $stmt->bind_param('dddddddddds', $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $charaname);
+                    $stmt->execute();
+                    $stmt->close();
+                } else {
+                    // そうでなければINSERT
+                    $stmt = $mysqli->prepare('INSERT INTO averageCharacterVote (
+                        charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty
+                    ) VALUES (
+                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                    )');
+
+                    $stmt->bind_param('sdddddddddd', $charaname, $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9]);
+                    $stmt->execute();
+                    $stmt->close();
+                }
+            }
         }
     }
 }
 
-$sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE charaname = ?";
+$sql = "SELECT damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM averageCharacterVote WHERE charaname=?";
 if ($result = $mysqli->prepare($sql)) {
     $result->bind_param("s", $charaname);
     $result->execute();
-
-    $result->store_result(); // これ忘れるとnum_rowsは0
-    $rows = $result->num_rows;
-    $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+    $result->store_result();
 
     $avelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    while ($result->fetch()) {
-        for ($i = 0; $i < count($resultlist); $i++) {
-            $avelist[$i] += $resultlist[$i];
-        }
-    }
-    $result->close();
-    for ($i = 0; $i < count($resultlist); $i++) {
-        $avelist[$i] /= $rows;
-    }
-
+    $result->bind_result($avelist[0], $avelist[1], $avelist[2], $avelist[3], $avelist[4], $avelist[5], $avelist[6], $avelist[7], $avelist[8], $avelist[9]);
+    $result->fetch();
     $avelist_json = json_encode($avelist);
 }
 ?>
@@ -91,8 +136,6 @@ if ($result = $mysqli->prepare($sql)) {
 
 <head>
     <link rel="icon" type="image/png" href="../images/else/ssbu_characterVoting_icon.png">
-    <meta charset="UTF-8">
-    <title>スマブラ投票権!!_投票結果</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <title>スマブラ投票権!!_結果閲覧</title>
@@ -149,7 +192,7 @@ if ($result = $mysqli->prepare($sql)) {
     </div>
 
     <script>
-        var avelist = JSON.parse('<?php echo $avelist_json; ?>');
+        var newavelist = JSON.parse('<?php echo $avelist_json; ?>');
         var ctx = document.getElementById("myRadarChart");
         var myRadarChart = new Chart(ctx, {
             //グラフの種類
@@ -177,7 +220,7 @@ if ($result = $mysqli->prepare($sql)) {
                     hitRadius: 5,
                     fill: true,
                     //グラフのデータ
-                    data: avelist,
+                    data: newavelist,
                 }]
             },
             options: {

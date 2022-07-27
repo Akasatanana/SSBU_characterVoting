@@ -1,6 +1,5 @@
 <?php
 // ローカルでのDB
-
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
@@ -10,11 +9,12 @@ $db_db = 'SSBU_charaVoting';
 
 // レンタルサーバでのDB
 /*
-   $db_host = 'mysql630.db.sakura.ne.jp';
-   $db_user = 'ssbu-charavoting';
-   $db_password = 'mkai0894';
-   $db_db = 'ssbu-charavoting_chara-voting';
+$db_host = 'mysql630.db.sakura.ne.jp';
+$db_user = 'ssbu-charavoting';
+$db_password = 'mkai0894';
+$db_db = 'ssbu-charavoting_chara-voting';
 */
+
 
 $mysqli = @new mysqli(
     $db_host,
@@ -29,27 +29,26 @@ if ($mysqli->connect_error) {
 } else {
     $mysqli->set_charset("utf8");
 }
+if (!isset($_POST["parameter"])) {
+    $_POST["parameter"] = "damage";
+}
+$orderparameter = $_POST["parameter"];
 
-$sql = "SELECT charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM characterVoting WHERE username=?";
+$sql = "SELECT charaname, damage, mobility, defense, burst, upset, neutral, edge, forceadapt, projectiles, difficulty FROM averageCharacterVote ORDER BY " . $orderparameter . " DESC";
 if ($result = $mysqli->prepare($sql)) {
-    $result->bind_param("s", $_POST['username'],);
     $result->execute();
-
     $result->store_result();
-    $rows = $result->num_rows;
-    $noVote = ($rows == 0);
-    if (!$noVote) {
-        $charaname = "";
-        $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
-        $result_array = [];
-        while ($result->fetch()) {
-            $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]];
-        }
-        $result->close();
-        $result_json = json_encode($result_array);
+    $charaname = "";
+    $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]);
+    $result_array = [];
+    while ($result->fetch()) {
+        $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9]];
     }
+    $result_json = json_encode($result_array);
+    $result->close();
 }
 ?>
 
@@ -61,11 +60,11 @@ if ($result = $mysqli->prepare($sql)) {
     <link rel="icon" type="image/png" href="../images/else/ssbu_characterVoting_icon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale = 1">
-    <title>スマブラ投票権!!_自分の投票</title>
+    <title>スマブラ投票権!!_結果閲覧</title>
     <!--cssの初期化用，必ず先頭に-->
     <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
 
-    <link rel="stylesheet" href="../csss/myvote.css">
+    <link rel="stylesheet" href="../csss/ranking.css">
     <script src="../Library/chart.js"></script>
     <!--googlefonts用-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,8 +86,20 @@ if ($result = $mysqli->prepare($sql)) {
 </header>
 
 <body>
+    <p>ランキング</p>
+    <form class="parameter-form" action="" method="post">
+        <button name="parameter" value="damage">火力</button>
+        <button name="parameter" value="mobility">機動力</button>
+        <button name="parameter" value="defense">防御力</button>
+        <button name="parameter" value="burst">撃墜力</button>
+        <button name="parameter" value="upset">アップセット</button>
+        <button name="parameter" value="neutral">立ち回り</button>
+        <button name="parameter" value="edge">崖</button>
+        <button name="parameter" value="forceadapt">初見殺し</button>
+        <button name="parameter" value="projectiles">飛び道具耐性</button>
+        <button name="parameter" value="difficulty">難易度</button>
+    </form>
     <div class="container">
-        <p>あなたの投票履歴</p>
         <?php
         foreach ($result_array as $name => $value) {
             echo '<div class="result-area">

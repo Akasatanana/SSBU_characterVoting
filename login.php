@@ -1,20 +1,19 @@
 <?php
 $_POST["usererrorType"];
 // ローカルでのDB
-/*
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
-*/
 
 
-
+/*
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
+*/
 
 
 $mysqli = @new mysqli(
@@ -151,7 +150,7 @@ if (isset($_POST["confirm"])) {
                 <input id="registerd" type="radio" name="usertype" value="registered"> 登録済み<br>
             </div>
             <input id="name" class="username-textbox" type="text" name="username" placeholder="ユーザ名" autocomplete="off" maxlength="60" required><br>
-            <input id="password" class="username-textbox" type="text" name="password" placeholder="パスワード" autocomplete="off" maxlength="60" required><br>
+            <input id="password" class="username-textbox" type="password" name="password" placeholder="パスワード" autocomplete="off" maxlength="60" required><br>
             <button class="username-confirm-button" type="submit" name="confirm" id="confirm">認証</button><br>
             <button class="username-submit-button" type="submit" name="submit" id="submit" style="display: none">マイページへ</button>
             <input type="hidden" name="usererrorType" value=0>

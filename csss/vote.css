@@ -17,10 +17,12 @@
 html,
 body {
     min-height: 100vh;
+    text-align: center;
 }
 
 p {
     font-size: 1.5vw;
+    margin-top: 5%;
 }
 
 body {

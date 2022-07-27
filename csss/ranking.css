@@ -11,9 +11,8 @@
     color: #fff;
   }
   html, body {
-
     min-height: 100vh;
-
+    text-align: center;
   }
   body {
     background-image: url(../images/username/ssbu_logo.jpeg);
@@ -129,4 +128,18 @@ p {
 
 .submit-button:hover {
   color: wheat;
+}
+
+.parameter-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.parameter-form button {
+  width: 10%;
+}
+
+.parameter-form button:hover {
+  border-bottom: thin solid rgb(255,255,204);
 }

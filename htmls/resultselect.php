@@ -5,7 +5,7 @@
     <link rel="icon" type="image/png" href="../images/else/ssbu_characterVoting_icon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale = 1">
-    <title>スマブラ投票権!!_マイページ</title>
+    <title>スマブラ投票権!!_結果選択</title>
     <!--cssの初期化用，必ず先頭に-->
     <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
     <link rel="stylesheet" href="../csss/mypage.css">
@@ -30,14 +30,12 @@
 
 <body>
     <p>
-    スマブラ投票権!!は，ユーザがファイターをカジュアルに評価し，その結果を閲覧できるサイトです．<br>
-    他のユーザの意見を尊重し，楽しくサイトを使いましょう！<br>
+    閲覧する結果を選んでください．<br>
     </p>
     <div class="containter">
         <form action="" method="post" name="useraction" id="useraction">
-            <button formaction="charaselect_vote.php" class="vote-button" type="submit" id="vote">投票する</button><br>
-            <button formaction="resultselect.php" class="result-button" type="submit" id="result">結果を見る</button><br>
-            <button formaction="myvote.php" class="myvote-button" type="submit" id="myvote">自分の投票</button>
+            <button formaction="charaselect_result.php" class="result-button" type="submit" id="result">キャラクター毎の結果</button><br>
+            <button formaction="ranking.php" class="myvote-button" type="submit" id="myvote">ランキング</button>
             <input type="hidden" name="username" value='<?php echo $_POST["username"]; ?>'>
         </form>
     </div>

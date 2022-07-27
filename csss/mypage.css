@@ -12,6 +12,7 @@
   }
   html, body {
     height: auto;
+    min-height: 100vh;
   }
   p {
     margin-top: 3%;
@@ -144,6 +145,8 @@
   }
 
   footer {
+    position: absolute;
+    bottom: 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
