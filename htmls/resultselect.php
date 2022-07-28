@@ -8,6 +8,7 @@
     <title>スマブラ投票権!!_結果選択</title>
     <!--cssの初期化用，必ず先頭に-->
     <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
+    <link rel="stylesheet" href="../csss/standard-content.css">
     <link rel="stylesheet" href="../csss/mypage.css">
     <!--googlefonts用-->
     <link rel="preconnect" href="https://fonts.googleapis.com">

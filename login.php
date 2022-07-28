@@ -1,18 +1,17 @@
 <?php
 $_POST["usererrorType"];
-/*
 // ローカルでのDB
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
-*/
-
+/*
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
+*/
 
 
 $mysqli = @new mysqli(
@@ -106,6 +105,7 @@ if (isset($_POST["confirm"])) {
     <title>スマブラ投票権!!_ログイン</title>
     <!--cssの初期化用，必ず先頭に-->
     <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
+    <link rel="stylesheet" href="csss/standard-content.css">
     <link rel="stylesheet" href="csss/login.css">
     <!--googlefonts用-->
     <link rel="preconnect" href="https://fonts.googleapis.com">

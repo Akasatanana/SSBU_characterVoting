@@ -14,20 +14,20 @@ $parameters = [
     "consistency" => "安定力",
     "difficulty" => "難易度"
 ];
-/*
+
 // ローカルでのDB
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
-*/
 
-
+/*
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
+*/
 
 
 $mysqli = @new mysqli(
@@ -77,6 +77,7 @@ if ($result = $mysqli->prepare($sql)) {
     <title>スマブラ投票権!!_結果閲覧</title>
     <!--cssの初期化用，必ず先頭に-->
     <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
+    <link rel="stylesheet" href="../csss/standard-content.css">
 
     <link rel="stylesheet" href="../csss/ranking.css">
     <script src="../Library/chart.js"></script>

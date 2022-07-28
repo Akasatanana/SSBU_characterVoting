@@ -10,22 +10,6 @@
   *:-ms-input-placeholder {
     color: #fff;
   }
-  html, body {
-
-    min-height: 100vh;
-
-  }
-  body {
-    background-image: url(../images/username/ssbu_logo.jpeg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: black;
-    background-position: center center;
-
-    font-family: 'Kosugi', sans-serif;
-    color: rgb(255,255,204);
-    text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
-  }
   body p {
     margin-top: 2%;
     margin-bottom: 2%;
@@ -35,45 +19,6 @@
     text-align: left;
     margin-left: 5%;
     font-size: 2vw;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 8vh;
-    width: 100vw;
-  
-    margin-top: 0;
-    margin-bottom: 0;
-  
-    background-color: red;
-    font-family: 'Kosugi', sans-serif;
-    color: rgb(255, 255, 204);
-    text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
-    font-size: 4vh;
-  }
-  header a img {
-    margin-left: 5vw;
-    height: 5vh;
-  }
-  header p {
-    margin-right: 5vw;
-    font-size: 50%;
-  }
-
-  footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  
-    height: 6vh;
-    width: 100vw;
-    background-color: red;
-    font-family: 'Kosugi', sans-serif;
-    color: rgb(255, 255, 204);
-    text-shadow: 0.1vw 0.1vw 0.05vw rgba(255, 255, 255, 0.5);
-    font-size: 2.5vh;
   }
 
   .chart-area {
