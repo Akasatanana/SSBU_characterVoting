@@ -117,19 +117,19 @@ if ($result = $mysqli->prepare($sql)) {
                     labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                     //データセット
                     datasets: [{
-                        label: "",
+                        label: "貴方の投票",
                         //背景色
-                        backgroundColor: "rgba(204,255,204, 0.5)",
+                        backgroundColor: "rgba(100,149,237, 0.5)",
                         //枠線の色
-                        borderColor: "rgba(0,128,0, 1)",
+                        borderColor: "rgba(0,0,255, 1)",
                         //結合点の背景色
-                        pointBackgroundColor: "rgba(0,128,0, 1)",
+                        pointBackgroundColor: "rgba(0,0,255, 1)",
                         //結合点の枠線の色
                         pointBorderColor: "#fff",
                         //結合点の背景色（ホバ時）
                         pointHoverBackgroundColor: "#fff",
                         //結合点の枠線の色（ホバー時）
-                        pointHoverBorderColor: "rgba(0,128,0, 1)",
+                        pointHoverBorderColor: "rgba(0,0,255, 1)",
                         //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
                         hitRadius: 5,
                         fill: true,
