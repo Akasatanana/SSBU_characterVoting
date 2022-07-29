@@ -1,17 +1,17 @@
 <?php
+/*
 // ローカルでのDB
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
-/*
+*/
 
 // レンタルサーバでのDB
-   $db_host = 'mysql630.db.sakura.ne.jp';
-   $db_user = 'ssbu-charavoting';
-   $db_password = 'mkai0894';
-   $db_db = 'ssbu-charavoting_chara-voting';
-   */
+$db_host = 'mysql630.db.sakura.ne.jp';
+$db_user = 'ssbu-charavoting';
+$db_password = 'mkai0894';
+$db_db = 'ssbu-charavoting_chara-voting';
 
 $mysqli = @new mysqli(
     $db_host,
@@ -39,10 +39,10 @@ if ($result = $mysqli->prepare($sql)) {
         $charaname = "";
         $resultlist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10],$resultlist[11],$resultlist[12]);
+        $result->bind_result($charaname, $resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10], $resultlist[11], $resultlist[12]);
         $result_array = [];
         while ($result->fetch()) {
-            $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10],$resultlist[11],$resultlist[12]];
+            $result_array[$charaname] = [$resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10], $resultlist[11], $resultlist[12]];
         }
         $result->close();
         $result_json = json_encode($result_array);
