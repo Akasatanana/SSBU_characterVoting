@@ -13,7 +13,6 @@ $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
 
-
 $mysqli = @new mysqli(
     $db_host,
     $db_user,
@@ -46,7 +45,7 @@ if ($_POST["select-style"] == "vote") {
                 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             )');
 
-            $stmt->bind_param('ssiiiiiiiiiiiii', $_POST['username'], $charaname, $_POST['damage'], $_POST['mobility'], $_POST['defense'], $_POST['burst'], $_POST['reversal'], $_POST['neutral'], $_POST['edge'],$_POST['recovery'],$_POST['edgeguard'],$_POST['easywin'], $_POST['projectiles'],$_POST['consistency'], $_POST['difficulty']);
+            $stmt->bind_param('ssiiiiiiiiiiiii', $_POST['username'], $charaname, $_POST['damage'], $_POST['mobility'], $_POST['defense'], $_POST['burst'], $_POST['reversal'], $_POST['neutral'], $_POST['edge'], $_POST['recovery'], $_POST['edgeguard'], $_POST['easywin'], $_POST['projectiles'], $_POST['consistency'], $_POST['difficulty']);
             $stmt->execute();
             $stmt->close();
 
@@ -94,7 +93,7 @@ if ($_POST["select-style"] == "vote") {
                     $stmt = $mysqli->prepare('UPDATE averageCharacterVote
                     SET damage = ?, mobility = ?, defense = ?, burst = ?, reversal = ?, neutral = ?, edge = ?,recovery = ?,edgeguard = ?,easywin = ?, projectiles = ?, consistency = ?, difficulty = ?
                     WHERE charaname = ?');
-                    $stmt->bind_param('ddddddddddddds', $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9],$newavelist[10],$newavelist[11],$newavelist[12], $charaname);
+                    $stmt->bind_param('ddddddddddddds', $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $newavelist[10], $newavelist[11], $newavelist[12], $charaname);
                     $stmt->execute();
                     $stmt->close();
                 } else {
@@ -113,7 +112,7 @@ if ($_POST["select-style"] == "vote") {
         }
     }
 }
-
+// 平均値の読み取り
 $sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty
 FROM averageCharacterVote WHERE charaname=?";
 if ($result = $mysqli->prepare($sql)) {
@@ -125,7 +124,23 @@ if ($result = $mysqli->prepare($sql)) {
 
     $result->bind_result($avelist[0], $avelist[1], $avelist[2], $avelist[3], $avelist[4], $avelist[5], $avelist[6], $avelist[7], $avelist[8], $avelist[9], $avelist[10], $avelist[11], $avelist[12]);
     $result->fetch();
+    $result->close();
     $avelist_json = json_encode($avelist);
+}
+// 自分の投票の読み取り
+
+$sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty FROM characterVoting WHERE username=? AND charaname=?";
+if ($result = $mysqli->prepare($sql)) {
+    $result->bind_param("ss", $_POST['username'], $charaname);
+    $result->execute();
+    $result->store_result();
+
+    $mylist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    $result->bind_result($mylist[0], $mylist[1], $mylist[2], $mylist[3], $mylist[4], $mylist[5], $mylist[6], $mylist[7], $mylist[8], $mylist[9], $mylist[10], $mylist[11], $mylist[12]);
+    $result->fetch();
+    $result->close();
+    $mylist_json = json_encode($mylist);
 }
 ?>
 
@@ -192,7 +207,8 @@ if ($result = $mysqli->prepare($sql)) {
     </div>
 
     <script>
-        var newavelist = JSON.parse('<?php echo $avelist_json; ?>');
+        var avelist = JSON.parse('<?php echo $avelist_json; ?>');
+        var mylist = JSON.parse('<?php echo $mylist_json ?>');
         var ctx = document.getElementById("myRadarChart");
         var myRadarChart = new Chart(ctx, {
             //グラフの種類
@@ -203,25 +219,46 @@ if ($result = $mysqli->prepare($sql)) {
                 labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                 //データセット
                 datasets: [{
-                    label: "",
-                    //背景色
-                    backgroundColor: "rgba(204,255,204, 0.5)",
-                    //枠線の色
-                    borderColor: "rgba(0,128,0, 1)",
-                    //結合点の背景色
-                    pointBackgroundColor: "rgba(0,128,0, 1)",
-                    //結合点の枠線の色
-                    pointBorderColor: "#fff",
-                    //結合点の背景色（ホバ時）
-                    pointHoverBackgroundColor: "#fff",
-                    //結合点の枠線の色（ホバー時）
-                    pointHoverBorderColor: "rgba(0,128,0, 1)",
-                    //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
-                    hitRadius: 5,
-                    fill: true,
-                    //グラフのデータ
-                    data: newavelist,
-                }]
+                        label: "全体の結果",
+                        //背景色
+                        backgroundColor: "rgba(204,255,204, 0.5)",
+                        //枠線の色
+                        borderColor: "rgba(0,128,0, 1)",
+                        //結合点の背景色
+                        pointBackgroundColor: "rgba(0,128,0, 1)",
+                        //結合点の枠線の色
+                        pointBorderColor: "#fff",
+                        //結合点の背景色（ホバ時）
+                        pointHoverBackgroundColor: "#fff",
+                        //結合点の枠線の色（ホバー時）
+                        pointHoverBorderColor: "rgba(0,128,0, 1)",
+                        //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+                        hitRadius: 5,
+                        fill: true,
+                        //グラフのデータ
+                        data: avelist,
+                    },
+                    {
+                        label: "貴方の投票",
+                        //背景色
+                        backgroundColor: "rgba(100,149,237, 0.5)",
+                        //枠線の色
+                        borderColor: "rgba(0,0,255, 1)",
+                        //結合点の背景色
+                        pointBackgroundColor: "rgba(0,0,255, 1)",
+                        //結合点の枠線の色
+                        pointBorderColor: "#fff",
+                        //結合点の背景色（ホバ時）
+                        pointHoverBackgroundColor: "#fff",
+                        //結合点の枠線の色（ホバー時）
+                        pointHoverBorderColor: "rgba(0,0,255, 1)",
+                        //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+                        hitRadius: 5,
+                        fill: true,
+                        //グラフのデータ
+                        data: mylist,
+                    }
+                ]
             },
             options: {
                 responsive: true,

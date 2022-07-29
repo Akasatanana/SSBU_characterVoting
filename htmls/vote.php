@@ -241,7 +241,7 @@
 
             <hr>
             <div class="input-area">
-                <h1>13.難易度(難しいほど高い数値)</h1>
+                <h1>13.難易度(難しいほど低い数値)</h1>
                 <input id="difficulty-range" type="range" name="difficulty" min="1" max="10" step="1" value="5"><br>
                 <h2><span id="difficulty-value">5</span>/10</h2>
                 <script>

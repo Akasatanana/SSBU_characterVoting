@@ -1,14 +1,14 @@
 *::-webkit-input-placeholder {
-    color: #fff;
+    color: gray;
   }
   *:-moz-placeholder {
-    color: #fff;
+    color: white;
   }
   *::-moz-placeholder {
     color: #fff;
   }
   *:-ms-input-placeholder {
-    color: #fff;
+    color: white;
   }
   
   .username-containter1 {

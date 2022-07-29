@@ -46,7 +46,7 @@ if (!isset($_POST["parameter"])) {
     $_POST["parameter"] = "damage";
 }
 $orderparameter = $_POST["parameter"];
-
+// 平均データの取得
 $sql = "SELECT charaname, damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty FROM averageCharacterVote ORDER BY " . $orderparameter . " DESC";
 if ($result = $mysqli->prepare($sql)) {
     $result->execute();
@@ -62,6 +62,25 @@ if ($result = $mysqli->prepare($sql)) {
     }
     $result_json = json_encode($result_array);
     $result->close();
+
+    $myresult_array = [];
+    // 自分の投票の取得
+    foreach ($result_array as $name => $value) {
+        $sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty FROM characterVoting WHERE username=? AND charaname=?";
+        if ($result = $mysqli->prepare($sql)) {
+            $result->bind_param("ss", $_POST['username'], $name);
+            $result->execute();
+            $result->store_result();
+
+            $mylist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+            $result->bind_result($mylist[0], $mylist[1], $mylist[2], $mylist[3], $mylist[4], $mylist[5], $mylist[6], $mylist[7], $mylist[8], $mylist[9], $mylist[10], $mylist[11], $mylist[12]);
+            $result->fetch();
+            $result->close();
+        }
+        $myresult_array[$name] = [$mylist[0], $mylist[1], $mylist[2], $mylist[3], $mylist[4], $mylist[5], $mylist[6], $mylist[7], $mylist[8], $mylist[9], $mylist[10], $mylist[11], $mylist[12]];
+    }
+    $myresult_json = json_encode($myresult_array);
 }
 ?>
 
@@ -103,7 +122,7 @@ if ($result = $mysqli->prepare($sql)) {
     <p>
         <?php
         foreach ($parameters as $en => $jp) {
-            if($_POST["parameter"] == $en){
+            if ($_POST["parameter"] == $en) {
                 echo $jp;
             }
         }
@@ -130,8 +149,20 @@ if ($result = $mysqli->prepare($sql)) {
         <?php
         $i = 0;
         foreach ($result_array as $name => $value) {
+            // jpnameの取得
+            $sql = "SELECT jpname FROM characterName WHERE name = ?";
+            if ($result = $mysqli->prepare($sql)) {
+                $result->bind_param("s", $name);
+                $result->execute();
+                $result->store_result();
+                $jpname = "";
+                $result->bind_result($jpname);
+                $result->fetch();
+                $result->close();
+            }
+
             $i++;
-            echo '<p>',$i,'位</p>';
+            echo '<p>', $i, '位：', $jpname, '</p>';
             echo '<div class="result-area">
             <div class="chart-area">
                 <canvas id="', $name, '">
@@ -150,7 +181,7 @@ if ($result = $mysqli->prepare($sql)) {
     </div>
 
     <script>
-        function displayChart(id, datalist) {
+        function displayChart(id, datalist, mydatalist) {
             var ctx = document.getElementById(id);
             var myRadarChart = new Chart(ctx, {
                 //グラフの種類
@@ -161,25 +192,46 @@ if ($result = $mysqli->prepare($sql)) {
                     labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                     //データセット
                     datasets: [{
-                        label: "",
-                        //背景色
-                        backgroundColor: "rgba(204,255,204, 0.5)",
-                        //枠線の色
-                        borderColor: "rgba(0,128,0, 1)",
-                        //結合点の背景色
-                        pointBackgroundColor: "rgba(0,128,0, 1)",
-                        //結合点の枠線の色
-                        pointBorderColor: "#fff",
-                        //結合点の背景色（ホバ時）
-                        pointHoverBackgroundColor: "#fff",
-                        //結合点の枠線の色（ホバー時）
-                        pointHoverBorderColor: "rgba(0,128,0, 1)",
-                        //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
-                        hitRadius: 5,
-                        fill: true,
-                        //グラフのデータ
-                        data: datalist,
-                    }]
+                            label: "全体の結果",
+                            //背景色
+                            backgroundColor: "rgba(204,255,204, 0.5)",
+                            //枠線の色
+                            borderColor: "rgba(0,128,0, 1)",
+                            //結合点の背景色
+                            pointBackgroundColor: "rgba(0,128,0, 1)",
+                            //結合点の枠線の色
+                            pointBorderColor: "#fff",
+                            //結合点の背景色（ホバ時）
+                            pointHoverBackgroundColor: "#fff",
+                            //結合点の枠線の色（ホバー時）
+                            pointHoverBorderColor: "rgba(0,128,0, 1)",
+                            //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+                            hitRadius: 5,
+                            fill: true,
+                            //グラフのデータ
+                            data: datalist,
+                        },
+                        {
+                            label: "貴方の投票",
+                            //背景色
+                            backgroundColor: "rgba(100,149,237, 0.5)",
+                            //枠線の色
+                            borderColor: "rgba(0,0,255, 1)",
+                            //結合点の背景色
+                            pointBackgroundColor: "rgba(0,0,255, 1)",
+                            //結合点の枠線の色
+                            pointBorderColor: "#fff",
+                            //結合点の背景色（ホバ時）
+                            pointHoverBackgroundColor: "#fff",
+                            //結合点の枠線の色（ホバー時）
+                            pointHoverBorderColor: "rgba(0,0,255, 1)",
+                            //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+                            hitRadius: 5,
+                            fill: true,
+                            //グラフのデータ
+                            data: mydatalist,
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
@@ -194,10 +246,12 @@ if ($result = $mysqli->prepare($sql)) {
         }
 
         let result = JSON.parse('<?php echo $result_json ?>');
+        let myresult = JSON.parse('<?php echo $myresult_json ?>');
 
         Object.keys(result).forEach(function(name) {
             var val = this[name]; // this は result
-            displayChart(name, val);
+            var myval = myresult[name];
+            displayChart(name, val, myval);
         }, result);
     </script>
 
