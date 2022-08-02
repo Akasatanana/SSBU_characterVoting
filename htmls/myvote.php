@@ -1,17 +1,18 @@
 <?php
-/*
+
 // ローカルでのDB
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
-*/
 
+/*
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
+*/
 
 $mysqli = @new mysqli(
     $db_host,
@@ -48,6 +49,26 @@ if ($result = $mysqli->prepare($sql)) {
         $result_json = json_encode($result_array);
     }
 }
+$avelist = [];
+
+foreach ($result_array as $name => $value) {
+    // 平均値の読み取り
+    $sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty
+FROM averageCharacterVote WHERE charaname=?";
+    if ($result = $mysqli->prepare($sql)) {
+        $result->bind_param("s", $name);
+        $result->execute();
+        $result->store_result();
+
+        $tmplist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        $result->bind_result($tmplist[0], $tmplist[1], $tmplist[2], $tmplist[3], $tmplist[4], $tmplist[5], $tmplist[6], $tmplist[7], $tmplist[8], $tmplist[9], $tmplist[10], $tmplist[11], $tmplist[12]);
+        $result->fetch();
+        $avelist[$name] = [$tmplist[0], $tmplist[1], $tmplist[2], $tmplist[3], $tmplist[4], $tmplist[5], $tmplist[6], $tmplist[7], $tmplist[8], $tmplist[9], $tmplist[10], $tmplist[11], $tmplist[12]];
+    }
+    $result->close();
+    $avelist_json = json_encode($avelist);
+}
 ?>
 
 
@@ -60,7 +81,7 @@ if ($result = $mysqli->prepare($sql)) {
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <title>スマブラ投票権!!_自分の投票</title>
     <!--cssの初期化用，必ず先頭に-->
-    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css" media="screen and (min-width: 601px)">
     <link rel="stylesheet" href="../csss/standard-content.css">
     <link rel="stylesheet" href="../csss/myvote.css">
     <script src="../Library/chart.js"></script>
@@ -85,9 +106,33 @@ if ($result = $mysqli->prepare($sql)) {
 
 <body>
     <div class="container">
-        <p>あなたの投票履歴</p>
+        <p><?php echo $_POST["username"] ?>さんの投票履歴</p>
         <?php
         foreach ($result_array as $name => $value) {
+            // jpnameの取得
+            $sql = "SELECT jpname FROM characterName WHERE name = ?";
+            if ($result = $mysqli->prepare($sql)) {
+                $result->bind_param("s", $name);
+                $result->execute();
+                $result->store_result();
+                $jpname = "";
+                $result->bind_result($jpname);
+                $result->fetch();
+                $result->close();
+            }
+
+            // 得票数の取得
+            $sql = "SELECT votenumber FROM averageCharacterVote WHERE charaname = ?";
+            if ($result = $mysqli->prepare($sql)) {
+                $result->bind_param("s", $name);
+                $result->execute();
+                $result->store_result();
+                $votenum = 0;
+                $result->bind_result($votenum);
+                $result->fetch();
+                $result->close();
+            }
+            echo '<p class="result-text">', $jpname, 'の投票結果　（',$votenum,'票）</p>';
             echo '<div class="result-area">
             <div class="chart-area">
                 <canvas id="', $name, '">
@@ -106,7 +151,7 @@ if ($result = $mysqli->prepare($sql)) {
     </div>
 
     <script>
-        function displayChart(id, datalist) {
+        function displayChart(id, datalist, avedatalist) {
             var ctx = document.getElementById(id);
             var myRadarChart = new Chart(ctx, {
                 //グラフの種類
@@ -117,6 +162,25 @@ if ($result = $mysqli->prepare($sql)) {
                     labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                     //データセット
                     datasets: [{
+                        label: "投票の平均値",
+                        //背景色
+                        backgroundColor: "rgba(204,255,204, 0.5)",
+                        //枠線の色
+                        borderColor: "rgba(0,128,0, 1)",
+                        //結合点の背景色
+                        pointBackgroundColor: "rgba(0,128,0, 1)",
+                        //結合点の枠線の色
+                        pointBorderColor: "#fff",
+                        //結合点の背景色（ホバ時）
+                        pointHoverBackgroundColor: "#fff",
+                        //結合点の枠線の色（ホバー時）
+                        pointHoverBorderColor: "rgba(0,128,0, 1)",
+                        //結合点より外でマウスホバーを認識する範囲（ピクセル単位）
+                        hitRadius: 5,
+                        fill: true,
+                        //グラフのデータ
+                        data: avedatalist,
+                    }, {
                         label: "貴方の投票",
                         //背景色
                         backgroundColor: "rgba(100,149,237, 0.5)",
@@ -150,10 +214,12 @@ if ($result = $mysqli->prepare($sql)) {
         }
 
         let result = JSON.parse('<?php echo $result_json ?>');
+        let averesult = JSON.parse('<?php echo $avelist_json ?>');
 
         Object.keys(result).forEach(function(name) {
             var val = this[name]; // this は result
-            displayChart(name, val);
+            var aveval = averesult[name];
+            displayChart(name, val, aveval);
         }, result);
     </script>
 

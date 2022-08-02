@@ -7,7 +7,7 @@
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <title>スマブラ投票権!!_投票_ファイター選択</title>
     <!--cssの初期化用，必ず先頭に-->
-    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css" media="screen and (min-width: 601px)">
     <link rel="stylesheet" href="../csss/standard-content.css">
     <link rel="stylesheet" href="../csss/charaselect_vote.css">
     <!--googlefonts用-->
@@ -24,9 +24,9 @@
         スマブラ投票権!!
     </h1>
 
-    <p>
+    <h1>
         ようこそ，<?php echo $_POST["username"]; ?>さん　
-    </p>
+</h1>
 </header>
 
 <body>

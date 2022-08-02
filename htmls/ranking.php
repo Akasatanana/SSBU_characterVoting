@@ -14,19 +14,20 @@ $parameters = [
     "consistency" => "安定力",
     "difficulty" => "難易度"
 ];
-/*
+
 // ローカルでのDB
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
-*/
 
+/*
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
+*/
 
 
 $mysqli = @new mysqli(
@@ -94,7 +95,7 @@ if ($result = $mysqli->prepare($sql)) {
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <title>スマブラ投票権!!_結果閲覧</title>
     <!--cssの初期化用，必ず先頭に-->
-    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css" media="screen and (min-width: 601px)">
     <link rel="stylesheet" href="../csss/standard-content.css">
 
     <link rel="stylesheet" href="../csss/ranking.css">
@@ -119,16 +120,7 @@ if ($result = $mysqli->prepare($sql)) {
 </header>
 
 <body>
-    <p>
-        <?php
-        foreach ($parameters as $en => $jp) {
-            if ($_POST["parameter"] == $en) {
-                echo $jp;
-            }
-        }
-        ?>
-        ランキング
-    </p>
+    <p class="explain-text">各項目をクリック・タップすると，項目毎のランキングが閲覧できます．</p>
     <form class="parameter-form" action="" method="post">
         <button name="parameter" value="damage">火力</button>
         <button name="parameter" value="mobility">機動力</button>
@@ -145,6 +137,16 @@ if ($result = $mysqli->prepare($sql)) {
         <button name="parameter" value="difficulty">難易度</button>
         <input type="hidden" name="username" value='<?php echo $_POST["username"]; ?>'>
     </form>
+    <p>
+        <?php
+        foreach ($parameters as $en => $jp) {
+            if ($_POST["parameter"] == $en) {
+                echo $jp;
+            }
+        }
+        ?>
+        ランキング
+    </p>
     <div class="container">
         <?php
         $i = 0;
@@ -161,8 +163,20 @@ if ($result = $mysqli->prepare($sql)) {
                 $result->close();
             }
 
+            // 得票数の取得
+            $sql = "SELECT votenumber FROM averageCharacterVote WHERE charaname = ?";
+            if ($result = $mysqli->prepare($sql)) {
+                $result->bind_param("s", $name);
+                $result->execute();
+                $result->store_result();
+                $votenum = 0;
+                $result->bind_result($votenum);
+                $result->fetch();
+                $result->close();
+            }
+
             $i++;
-            echo '<p>', $i, '位：', $jpname, '</p>';
+            echo '<p>', $i, '位：', $jpname, '（', $votenum, '票）</p>';
             echo '<div class="result-area">
             <div class="chart-area">
                 <canvas id="', $name, '">
@@ -170,6 +184,9 @@ if ($result = $mysqli->prepare($sql)) {
             </div>
             <img class="chara-image" src="../images/charaImages/', $name, '.png">
         </div>';
+            if ($i >= 10) {
+                break;
+            }
         };
         ?>
 

@@ -1,16 +1,20 @@
 *::-webkit-input-placeholder {
-    color: #fff;
-  }
-  *:-moz-placeholder {
-    color: #fff;
-  }
-  *::-moz-placeholder {
-    color: #fff;
-  }
-  *:-ms-input-placeholder {
-    color: #fff;
-  }
-  
+  color: #fff;
+}
+
+*:-moz-placeholder {
+  color: #fff;
+}
+
+*::-moz-placeholder {
+  color: #fff;
+}
+
+*:-ms-input-placeholder {
+  color: #fff;
+}
+
+@media screen and (min-width: 601px) {
   .containter {
     text-align: center;
     width: 80vw;
@@ -19,7 +23,7 @@
     position: relative;
     margin-left: 10vw;
   }
-  
+
   .vote-button {
     margin-top: 3%;
 
@@ -35,7 +39,7 @@
     background-image: -webkit-gradient(linear, left top, right top, from(deepskyblue), to(lime));
     background-image: -webkit-linear-gradient(left, deepskyblue 0%, lime 100%);
     background-image: linear-gradient(90deg, deepskyblue 0%, lime 100%);
-    
+
     -webkit-box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
     box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
 
@@ -61,7 +65,7 @@
     background-image: -webkit-gradient(linear, left top, right top, from(red), to(orange));
     background-image: -webkit-linear-gradient(left, red 0%, orange 100%);
     background-image: linear-gradient(90deg, red 0%, orange 100%);
-    
+
     -webkit-box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
     box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
 
@@ -87,7 +91,7 @@
     background-image: -webkit-gradient(linear, left top, right top, from(deeppink), to(darkslateblue));
     background-image: -webkit-linear-gradient(left, deeppink 0%, darkslateblue 100%);
     background-image: linear-gradient(90deg, deeppink 0%, darkslateblue 100%);
-    
+
     -webkit-box-shadow: 0.2vw 0.2vw 0.1vw indigo;
     box-shadow: 0.2vw 0.2vw 0.1vw indigo;
 
@@ -97,3 +101,110 @@
   .myvote-button:hover {
     color: wheat;
   }
+}
+
+@media screen and (max-width: 600px) {
+  body p {
+    font-size: 3vw;
+    line-height: 5vw;
+  }
+
+  .containter {
+    text-align: center;
+    width: 80vw;
+    height: auto;
+
+    position: relative;
+    margin-left: 10vw;
+  }
+
+  .vote-button {
+    margin-top: 3%;
+
+    -webkit-transform: skew(-15deg);
+    transform: skew(-15deg);
+    border-radius: 0;
+
+    width: 60vw;
+    height: 10vh;
+
+    font-size: 2.5vw;
+
+    background-image: -webkit-gradient(linear, left top, right top, from(deepskyblue), to(lime));
+    background-image: -webkit-linear-gradient(left, deepskyblue 0%, lime 100%);
+    background-image: linear-gradient(90deg, deepskyblue 0%, lime 100%);
+
+    -webkit-box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
+    box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
+
+    color: rgb(255, 255, 204);
+    text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    font-size: 4vw;
+
+    margin-bottom: 12vh;
+  }
+
+  .vote-button:hover {
+    color: wheat;
+  }
+
+  .result-button {
+    margin-top: 3%;
+
+    -webkit-transform: skew(-15deg);
+    transform: skew(-15deg);
+    border-radius: 0;
+
+    width: 60vw;
+    height: 10vh;
+
+    font-size: 2.5vw;
+
+    background-image: -webkit-gradient(linear, left top, right top, from(red), to(orange));
+    background-image: -webkit-linear-gradient(left, red 0%, orange 100%);
+    background-image: linear-gradient(90deg, red 0%, orange 100%);
+
+    -webkit-box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+
+    color: rgb(255, 255, 204);
+    text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    font-size: 4vw;
+
+    margin-bottom: 12vh;
+  }
+
+  .result-button:hover {
+    color: wheat;
+  }
+
+  .myvote-button {
+    margin-top: 3%;
+
+    -webkit-transform: skew(-15deg);
+    transform: skew(-15deg);
+    border-radius: 0;
+
+    width: 60vw;
+    height: 10vh;
+
+    font-size: 2.5vw;
+
+    background-image: -webkit-gradient(linear, left top, right top, from(deeppink), to(darkslateblue));
+    background-image: -webkit-linear-gradient(left, deeppink 0%, darkslateblue 100%);
+    background-image: linear-gradient(90deg, deeppink 0%, darkslateblue 100%);
+
+    -webkit-box-shadow: 0.2vw 0.2vw 0.1vw indigo;
+    box-shadow: 0.2vw 0.2vw 0.1vw indigo;
+
+    color: rgb(255, 255, 204);
+    text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    font-size: 4vw;
+
+    margin-bottom: 12vh;
+  }
+
+  .myvote-button:hover {
+    color: wheat;
+  }
+}

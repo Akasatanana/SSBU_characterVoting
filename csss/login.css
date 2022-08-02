@@ -1,16 +1,20 @@
 *::-webkit-input-placeholder {
-    color: gray;
-  }
-  *:-moz-placeholder {
-    color: white;
-  }
-  *::-moz-placeholder {
-    color: #fff;
-  }
-  *:-ms-input-placeholder {
-    color: white;
-  }
-  
+  color: gray;
+}
+
+*:-moz-placeholder {
+  color: white;
+}
+
+*::-moz-placeholder {
+  color: #fff;
+}
+
+*:-ms-input-placeholder {
+  color: white;
+}
+
+@media screen and (min-width: 601px) {
   .username-containter1 {
     text-align: center;
     width: 80vw;
@@ -20,11 +24,11 @@
     margin-top: 10vh;
     margin-left: 10vw;
   }
-  
+
   .username-headText {
     font-size: 5vw;
   }
-  
+
   .username-textbox {
     margin-top: 5%;
     border: 1px solid whitesmoke;
@@ -41,7 +45,7 @@
     outline: none;
     background-color: whitesmoke;
   }
-  
+
   .username-textbox:focus {
     width: 50vw;
     outline: none;
@@ -62,7 +66,7 @@
     background-image: -webkit-gradient(linear, left top, right top, from(red), to(orange));
     background-image: -webkit-linear-gradient(left, red 0%, orange 100%);
     background-image: linear-gradient(90deg, red 0%, orange 100%);
-    
+
     -webkit-box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
     box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
 
@@ -88,7 +92,7 @@
     background-image: -webkit-gradient(linear, left top, right top, from(deepskyblue), to(lime));
     background-image: -webkit-linear-gradient(left, deepskyblue 0%, lime 100%);
     background-image: linear-gradient(90deg, deepskyblue 0%, lime 100%);
-    
+
     -webkit-box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
     box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
 
@@ -103,3 +107,103 @@
     font-size: 1.8vw;
     margin-top: 2.5%;
   }
+}
+
+@media screen and (max-width: 600px) {
+  .username-containter1 {
+    text-align: center;
+    width: 80vw;
+    height: auto;
+
+    position: relative;
+    margin-top: 10vh;
+    margin-left: 10vw;
+  }
+  .username-containter1 p {
+    font-size: 3vw;
+  }
+
+  .username-headText {
+    font-size: 5vw;
+  }
+
+  .username-textbox {
+    margin-top: 5%;
+    border: 1px solid whitesmoke;
+    color: rgb(50, 50, 50);
+    opacity: .9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 60vw;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    font-size: 5vw;
+    outline: none;
+    background-color: whitesmoke;
+  }
+
+  .username-textbox:focus {
+    width: 70vw;
+    outline: none;
+  }
+
+  .username-submit-button {
+    margin-top: 5%;
+
+    -webkit-transform: skew(-15deg);
+    transform: skew(-15deg);
+    border-radius: 0;
+
+    width: 60vw;
+    height: 10vh;
+
+    font-size: 5vw;
+
+    background-image: -webkit-gradient(linear, left top, right top, from(red), to(orange));
+    background-image: -webkit-linear-gradient(left, red 0%, orange 100%);
+    background-image: linear-gradient(90deg, red 0%, orange 100%);
+
+    -webkit-box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    box-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    color: rgb(255, 255, 204);
+    margin-bottom: 12vh;
+  }
+
+  .username-submit-button:hover {
+    color: wheat;
+  }
+
+  .username-confirm-button {
+    margin-top: 5%;
+
+    -webkit-transform: skew(-15deg);
+    transform: skew(-15deg);
+    border-radius: 0;
+
+    width: 60vw;
+    height: 10vh;
+
+    font-size: 5vw;
+
+    background-image: -webkit-gradient(linear, left top, right top, from(deepskyblue), to(lime));
+    background-image: -webkit-linear-gradient(left, deepskyblue 0%, lime 100%);
+    background-image: linear-gradient(90deg, deepskyblue 0%, lime 100%);
+
+    -webkit-box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
+    box-shadow: 0.2vw 0.2vw 0.1vw darkcyan;
+    color: rgb(255, 255, 204);
+
+    margin-bottom: 12vh;
+  }
+
+  .username-confirm-button:hover {
+    color: wheat;
+  }
+
+  .usertype-select {
+    font-size: 3vw;
+    margin-top: 2.5%;
+  }
+}

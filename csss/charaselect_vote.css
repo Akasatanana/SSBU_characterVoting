@@ -14,29 +14,76 @@
   color: #fff;
 }
 
-.title-text {
-  margin-top: 4vh;
-  font-size: 5vw;
-  text-align: center;
+@media screen and (min-width: 601px) {
+  .title-text {
+    margin-top: 4vh;
+    font-size: 5vw;
+    text-align: center;
+  }
+
+  .image-vw {
+    width: 10vw;
+    height: auto;
+  }
+
+  .imagezone {
+    position: relative;
+    margin-top: 10vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 10vh;
+
+    width: 90vw;
+    height: auto;
+  }
+
+  .nobordered_button {
+    border: none;
+    background: none;
+  }
 }
 
-.image-vw {
-  width: 10vw;
-  height: auto;
-}
+@media screen and (max-width: 600px) {
+  body {
+    background-image: url(../images/username/ssbu_logo.jpeg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: black;
+    background-position: center center;
 
-.imagezone {
-  position: relative;
-  margin-top: 10vh;
-  margin-left: 5vw;
-  margin-right: 5vw;
-  margin-bottom: 10vh;
+    position: relative;
 
-  width: 90vw;
-  height: auto;
-}
+    font-family: 'Kosugi', sans-serif;
+    color: rgb(255, 255, 204);
+    text-shadow: 0.2vw 0.2vw 0.1vw rgba(255, 110, 0, 0.5);
+    font-size: 1vw;
+    text-align: center;
+  }
 
-.nobordered_button {
-  border: none;
-  background: none;
+  .title-text {
+    margin-top: 4vh;
+    font-size: 5vw;
+    text-align: center;
+  }
+
+  .image-vw {
+    width: 15vw;
+    height: auto;
+  }
+
+  .imagezone {
+    position: relative;
+    margin-top: 10vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 10vh;
+
+    width: 90vw;
+    height: auto;
+  }
+
+  .nobordered_button {
+    border: none;
+    background: none;
+  }
 }

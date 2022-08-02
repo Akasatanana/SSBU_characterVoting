@@ -1,17 +1,17 @@
 <?php
-/*
 // ローカルでのDB
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
-*/
 
+/*
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
+*/
 
 $mysqli = @new mysqli(
     $db_host,
@@ -62,6 +62,7 @@ if ($_POST["select-style"] == "vote") {
                 $result->bind_result($resultlist[0], $resultlist[1], $resultlist[2], $resultlist[3], $resultlist[4], $resultlist[5], $resultlist[6], $resultlist[7], $resultlist[8], $resultlist[9], $resultlist[10], $resultlist[11], $resultlist[12]);
 
                 $newavelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                $newvotenum = $rows;
 
                 while ($result->fetch()) {
                     for ($i = 0; $i < count($resultlist); $i++) {
@@ -91,20 +92,21 @@ if ($_POST["select-style"] == "vote") {
 
                     // 平均値の登録
                     $stmt = $mysqli->prepare('UPDATE averageCharacterVote
-                    SET damage = ?, mobility = ?, defense = ?, burst = ?, reversal = ?, neutral = ?, edge = ?,recovery = ?,edgeguard = ?,easywin = ?, projectiles = ?, consistency = ?, difficulty = ?
+                    SET damage = ?, mobility = ?, defense = ?, burst = ?, reversal = ?, neutral = ?, edge = ?,recovery = ?,edgeguard = ?,easywin = ?, projectiles = ?, consistency = ?, difficulty = ?, votenumber = ?
                     WHERE charaname = ?');
-                    $stmt->bind_param('ddddddddddddds', $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $newavelist[10], $newavelist[11], $newavelist[12], $charaname);
+                    $stmt->bind_param('dddddddddddddis', $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $newavelist[10], $newavelist[11], $newavelist[12], $newvotenum, $charaname);
                     $stmt->execute();
                     $stmt->close();
                 } else {
                     // そうでなければINSERT
                     $stmt = $mysqli->prepare('INSERT INTO averageCharacterVote (
-                        charaname, damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty
+                        charaname, damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty, votenumber
                     ) VALUES (
-                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                     )');
+                    $newvotenum = 1;
 
-                    $stmt->bind_param('sddddddddddddd', $charaname, $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $newavelist[10], $newavelist[11], $newavelist[12]);
+                    $stmt->bind_param('sdddddddddddddi', $charaname, $newavelist[0], $newavelist[1], $newavelist[2], $newavelist[3], $newavelist[4], $newavelist[5], $newavelist[6], $newavelist[7], $newavelist[8], $newavelist[9], $newavelist[10], $newavelist[11], $newavelist[12], $newvotenum);
                     $stmt->execute();
                     $stmt->close();
                 }
@@ -113,7 +115,7 @@ if ($_POST["select-style"] == "vote") {
     }
 }
 // 平均値の読み取り
-$sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty
+$sql = "SELECT damage, mobility, defense, burst, reversal, neutral, edge, recovery, edgeguard, easywin, projectiles, consistency,difficulty, votenumber
 FROM averageCharacterVote WHERE charaname=?";
 if ($result = $mysqli->prepare($sql)) {
     $result->bind_param("s", $charaname);
@@ -121,8 +123,9 @@ if ($result = $mysqli->prepare($sql)) {
     $result->store_result();
 
     $avelist = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    $votenumber;
 
-    $result->bind_result($avelist[0], $avelist[1], $avelist[2], $avelist[3], $avelist[4], $avelist[5], $avelist[6], $avelist[7], $avelist[8], $avelist[9], $avelist[10], $avelist[11], $avelist[12]);
+    $result->bind_result($avelist[0], $avelist[1], $avelist[2], $avelist[3], $avelist[4], $avelist[5], $avelist[6], $avelist[7], $avelist[8], $avelist[9], $avelist[10], $avelist[11], $avelist[12], $votenumber);
     $result->fetch();
     $result->close();
     $avelist_json = json_encode($avelist);
@@ -142,6 +145,18 @@ if ($result = $mysqli->prepare($sql)) {
     $result->close();
     $mylist_json = json_encode($mylist);
 }
+
+// jpnameの取得
+$sql = "SELECT jpname FROM characterName WHERE name = ?";
+if ($result = $mysqli->prepare($sql)) {
+    $result->bind_param("s", $charaname);
+    $result->execute();
+    $result->store_result();
+    $jpname = "";
+    $result->bind_result($jpname);
+    $result->fetch();
+    $result->close();
+}
 ?>
 
 
@@ -154,7 +169,7 @@ if ($result = $mysqli->prepare($sql)) {
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <title>スマブラ投票権!!_結果閲覧</title>
     <!--cssの初期化用，必ず先頭に-->
-    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css" media="screen and (min-width: 601px)">
     <link rel="stylesheet" href="../csss/standard-content.css">
 
     <link rel="stylesheet" href="../csss/result.css">
@@ -191,7 +206,7 @@ if ($result = $mysqli->prepare($sql)) {
             }
             ?>
         </p>
-        <p class="result-text">投票結果（全投票の平均値）：</p>
+        <p class="result-text"><?php echo $jpname ?>の投票結果：（<?php echo $votenumber; ?>票）</p>
         <div class="result-area">
             <div class="chart-area">
                 <canvas id="myRadarChart">
@@ -219,7 +234,7 @@ if ($result = $mysqli->prepare($sql)) {
                 labels: ["火力", "機動力", "防御力", "撃墜力", "逆転力", "立ち回り", "崖", "復帰力", "復帰阻止", "処理性能", "安定力", "飛び道具耐性", "難易度"],
                 //データセット
                 datasets: [{
-                        label: "全体の結果",
+                        label: "投票の平均値",
                         //背景色
                         backgroundColor: "rgba(204,255,204, 0.5)",
                         //枠線の色
