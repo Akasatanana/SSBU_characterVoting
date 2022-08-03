@@ -15,6 +15,9 @@
 }
 
 @media screen and (min-width: 601px) {
+  body {
+    background-size: contain;
+  }
   .title-text {
     margin-top: 4vh;
     font-size: 5vw;
