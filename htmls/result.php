@@ -8,6 +8,7 @@ $db_db = 'SSBU_charaVoting';
 */
 
 
+
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
@@ -207,7 +208,11 @@ if ($result = $mysqli->prepare($sql)) {
             }
             ?>
         </p>
-        <p class="result-text"><?php echo $jpname ?>の投票結果：（<?php echo $votenumber; ?>票）</p>
+        <p class="result-text">
+            <?php echo $jpname ?>の投票結果：（<?php echo $votenumber; ?>票）
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-text="スマブラ投票権!!〜スマブラキャラ評価投票アプリ〜" data-url="http://ssbu-charavoting.sakura.ne.jp/SSBU_characterVoting/login.php" data-hashtags="スマブラSP" data-size="large">Tweet</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
         <div class="result-area">
             <div class="chart-area">
                 <canvas id="myRadarChart">
@@ -219,7 +224,6 @@ if ($result = $mysqli->prepare($sql)) {
             <button class="submit-button" type="submit" name="submit" id="submit">マイページへ</button>
             <input type="hidden" name="username" value='<?php echo $_POST["username"]; ?>'>
         </form>
-
     </div>
 
     <script>

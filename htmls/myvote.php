@@ -1,5 +1,4 @@
 <?php
-
 /*
 // ローカルでのDB
 $db_host = 'localhost';
@@ -9,11 +8,13 @@ $db_db = 'SSBU_charaVoting';
 */
 
 
+
 // レンタルサーバでのDB
 $db_host = 'mysql630.db.sakura.ne.jp';
 $db_user = 'ssbu-charavoting';
 $db_password = 'mkai0894';
 $db_db = 'ssbu-charavoting_chara-voting';
+
 
 $mysqli = @new mysqli(
     $db_host,
@@ -107,7 +108,11 @@ FROM averageCharacterVote WHERE charaname=?";
 
 <body>
     <div class="container">
-        <p><?php echo $_POST["username"] ?>さんの投票履歴</p>
+        <p>
+            <?php echo $_POST["username"] ?>さんの投票履歴
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-text="スマブラ投票権!!〜スマブラキャラ評価投票アプリ〜" data-url="http://ssbu-charavoting.sakura.ne.jp/SSBU_characterVoting/login.php" data-hashtags="スマブラSP" data-size="large">Tweet</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
         <?php
         foreach ($result_array as $name => $value) {
             // jpnameの取得

@@ -1,5 +1,6 @@
 <?php
 $_POST["usererrorType"];
+
 /*
 // ローカルでのDB
 $db_host = 'localhost';
@@ -7,6 +8,7 @@ $db_user = 'root';
 $db_password = 'root';
 $db_db = 'SSBU_charaVoting';
 */
+
 
 
 // レンタルサーバでのDB
